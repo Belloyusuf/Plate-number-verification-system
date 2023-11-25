@@ -52,6 +52,7 @@ class Owner(TimeModels):
 class CarRegisteration(TimeModels):
     """ Car registration details  """
     owner = models.ForeignKey(Owner, verbose_name=("Owner"), on_delete=models.CASCADE)
+    car_name = models.CharField(max_length=15)
     drivers_license = models.CharField(max_length=50)
     vehicle_insurance = models.CharField(("Vehicle Insurance Number"), max_length=50)
     nin = models.CharField(("NIN"), max_length=15)
