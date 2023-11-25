@@ -11,7 +11,6 @@ class TimeModels(models.Model):
         abstract = True
 
 
-
 # Owners models 
 class Owners(TimeModels):
     SEX_TYPE = (
@@ -40,5 +39,17 @@ class Owners(TimeModels):
     state = models.CharField(max_length=15)
     nationality = models.CharField(max_length=15)
 
+
+
+class CarRegisteration(TimeModels):
+    drivers_license = models.CharField(max_length=50)
+    vehicle_insurance = models.CharField(("Vehicle Insurance Number"), max_length=50)
+    nin = models.CharField(("NIN"), max_length=15)
+    proof_address = models.CharField(max_length=50)
+    tin = models.CharField(("Tax Identification Number"), max_length=15)
+    custom_clearance = models.ImageField(upload_to="customclearance", height_field=None, width_field=None, max_length=None)
+    vehicle_engine = models.CharField(("Vehicle Engine Number"), max_length=15)
+    proof_of_ownership = models.ImageField(upload_to="proof", height_field=None, width_field=None, max_length=None)
+    passport = models.ImageField(_("Two passport of ownership"), upload_to=None, height_field=None, width_field=None, max_length=None)
 
 
