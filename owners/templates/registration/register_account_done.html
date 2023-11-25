@@ -1,0 +1,14 @@
+{% extends 'base2.html' %}  <!-- Extending our base file -->
+<!-- calling crispy forms -->
+{% load crispy_forms_tags %}
+<!-- Defining our title  -->
+{% load static %}
+{% block title %}Create an account{% endblock %}
+
+
+{% block content %}
+<div class="teacher-board mt-5">
+<h1>Account created successfully</h1>
+<p>Your account was created successfully you can login in <a href="{% url 'login' %}">Login</a> </p>
+</div>
+{% endblock %}

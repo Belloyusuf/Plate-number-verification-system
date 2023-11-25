@@ -8,7 +8,7 @@ admin.site.site_title = "car plate number varification"
 
 @admin.register(Owner)
 class ownerAdmin(admin.ModelAdmin):
-    list_display = ["full_name", "created"]
+    list_display = ["full_name", "occupation", "created"]
 
 
 

@@ -1,0 +1,29 @@
+{% extends 'base2.html' %}  <!-- Extending our base file -->
+<!-- calling crispy forms -->
+{% load crispy_forms_tags %}
+<!-- Defining our title  -->
+{% load static %}
+{% block title  %}
+  login 
+{% endblock title  %}
+
+<!-- Defining our login content  -->
+{% include "include/login_navbar.html" %}
+{% block content  %}
+  <div class="login-container">
+  {% if forms.errors %}
+  	<p> Your username and pasword didn't match. Please try again </p>
+  {% else %}
+    <h3 class="login-welcome">Digital Library</h3>
+    <hr />
+    <form action="{% url 'login'%}" method="post">
+      {% csrf_token %}
+      {{ form|crispy }}
+      
+      <button type="submit" class="btn btn-primary btn-block btn-sm">Login</button>
+      <p> <input type="hidden" name="next" value="{{ next }}" />
+      <p class="text-center">Create Account <a href="{% url 'register'%}">Sign up Here</a> </p>
+    </form>
+  </div>
+  {% endif %}
+{% endblock content  %}
