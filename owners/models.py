@@ -12,7 +12,8 @@ class TimeModels(models.Model):
 
 
 # Owners models 
-class Owners(TimeModels):
+class Owner(TimeModels):
+
     SEX_TYPE = (
         ("Male", "Male"),
         ("Female", "Female")
@@ -39,9 +40,18 @@ class Owners(TimeModels):
     state = models.CharField(max_length=15)
     nationality = models.CharField(max_length=15)
 
+    def __str__(self):
+        return self.full_name
+
+    class Meta:
+        verbose_name = 'Owner'
+        verbose_name_plural = 'Owners'
 
 
+# Car Registration model 
 class CarRegisteration(TimeModels):
+    """ Car registration details  """
+    owner = models.ForeignKey(Owner, verbose_name=_(""), on_delete=models.CASCADE)
     drivers_license = models.CharField(max_length=50)
     vehicle_insurance = models.CharField(("Vehicle Insurance Number"), max_length=50)
     nin = models.CharField(("NIN"), max_length=15)
@@ -50,6 +60,9 @@ class CarRegisteration(TimeModels):
     custom_clearance = models.ImageField(upload_to="customclearance", height_field=None, width_field=None, max_length=None)
     vehicle_engine = models.CharField(("Vehicle Engine Number"), max_length=15)
     proof_of_ownership = models.ImageField(upload_to="proof", height_field=None, width_field=None, max_length=None)
-    passport = models.ImageField(_("Two passport of ownership"), upload_to=None, height_field=None, width_field=None, max_length=None)
+    passport = models.ImageField(("Two passport of ownership"), upload_to=None, height_field=None, width_field=None, max_length=None)
 
 
+    def __str__(self):
+        return self.name
+    
