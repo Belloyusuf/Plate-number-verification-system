@@ -51,19 +51,70 @@ class Owner(TimeModels):
 # Car Registration model 
 class CarRegisteration(TimeModels):
     """ Car registration details  """
-    owner = models.ForeignKey(Owner, verbose_name=("Owner"), on_delete=models.CASCADE)
-    car_name = models.CharField(max_length=15)
-    drivers_license = models.CharField(max_length=50)
-    vehicle_insurance = models.CharField(("Vehicle Insurance Number"), max_length=50)
-    nin = models.CharField(("NIN"), max_length=15)
-    proof_address = models.CharField(max_length=50)
-    tin = models.CharField(("Tax Identification Number"), max_length=15)
-    custom_clearance = models.ImageField(upload_to="customclearance", height_field=None, width_field=None, max_length=None)
-    vehicle_engine = models.CharField(("Vehicle Engine Number"), max_length=15)
-    proof_of_ownership = models.ImageField(upload_to="proof", height_field=None, width_field=None, max_length=None)
-    passport = models.ImageField(("Two passport of ownership"), upload_to=None, height_field=None, width_field=None, max_length=None)
+    VEHICLE_CATEGORIES = (
+        ("Government", "Government"),
+        ("Commercial", "Commercial"),
+        ("Private", "Private")
+    )
 
+    VEHICLE_SUB_CATEGORY = (
+        ("Diplomatic and Foreign Mission", "Diplomatic and Foreign Mission"),
+        ("Federal Parastatals/Agencies/Department", "Federal Parastatals/Agencies/Department"),
+        ("LGA", "LGA"),
+        ("Military/Paramilitaries", "Military/Paramilitaries"),
+        ("State Ministries/Agencies/Department")
+    )
+
+    VEHICLE_MAKE = (
+        (100, 100),
+        (1617, 1617),
+        (190, 190),
+        (420, 420),
+        ("5 SERIES", "5 SERIES")
+    )
+
+    FUEL_TYPE = (
+        ("Petrol", "Petrol"),
+        ("Diesel", "Diesel"),
+        ("Bio-Fuel", "Bio-Fuel")
+    )
+
+    VEHICLE_TYPE = (
+        ("Telsa", "Telsa"),
+        ("BMW", "BMW"),
+        ("Ferrari", "Ferrari"),
+        ("Honda", "Honda"),
+        ("Toyota", "Toyota"),
+        ("Audi", "Audi"),
+        ("Jeep", "Jeep"),
+        ("Mazda", "Mazda"),
+        ("Nissan", "Nissan")
+    )
+
+    ENGINE_CAPACITY =(
+        ("Above 3.0", "Above 3.0"),
+        ("Below 1.6", "Below 1.6"),
+        ("Between 1.6 and 2.0", "Between 1.6 and 2.0"),
+        ("Between 2.1 and 3.0", "Between 2.1 and 3.0")
+    )
+
+    vehicle_category = models.CharField(choices=VEHICLE_CATEGORIES, max_length=15)
+    vehicle_sub_category = models.CharField(choices=VEHICLE_SUB_CATEGORY, max_length=15)
+    old_plate_number = models.CharField(max_length=20)
+    vehicle_make = models.CharField(max_length=10)
+    color = models.CharField(max_length=10)
+    fuel_type = models.CharField(choices=FUEL_TYPE, max_length=50)
+    year_of_manufacture = models.CharField(max_length=4, help_text="2000")
+    model = models.CharField(max_length=10)
+    engine_number = models.CharField(max_length=10)
+    policy_number = models.CharField(max_length=10)
+    vehicle_type = models.CharField(("Vehicle Type/Group"), choices=VEHICLE_TYPE, max_length=50)
+    chassis_no = models.CharField(("Chassis Number"), max_length=15)
+    engine_capacity = models.CharField(choices=ENGINE_CAPACITY, max_length=50)
+    tank_capacity = models.CharField(max_length=5)
+    odometer = models.CharField(max_length=15)
 
     def __str__(self):
         return self.owner
     
+
