@@ -38,7 +38,9 @@ class Owner(TimeModels):
     email = models.EmailField(max_length=254)
     residential_address = models.CharField(max_length=50)
     state = models.CharField(max_length=15)
+    local_government = models.CharField(("Local government"), max_length=50)
     nationality = models.CharField(max_length=15)
+
 
     def __str__(self):
         return self.full_name
