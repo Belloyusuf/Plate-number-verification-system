@@ -33,7 +33,7 @@ class Owner(TimeModels):
     sex = models.CharField(choices=SEX_TYPE ,max_length=50)
     marital_status = models.CharField(choices=MARITAL_STATUS ,max_length=50)
     occupation = models.CharField(choices=OCCUPATION, max_length=50)
-    date_of_birth = models.DateField(auto_now=False, auto_now_add=False)
+    date_of_birth = models.DateField(auto_now=False, auto_now_add=False, help_text="Date of Birth Format 2000-11-25")
     phone = models.CharField(max_length=20)
     email = models.EmailField(max_length=254)
     residential_address = models.CharField(max_length=50)

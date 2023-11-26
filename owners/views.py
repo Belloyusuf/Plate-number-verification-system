@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
 from . models import Owner, CarRegisteration, Approved_Centres
 from django.contrib.messages.views import SuccessMessageMixin
-
+from django.urls import reverse_lazy
 
 # Create your views here.
 
@@ -23,7 +23,7 @@ class OwnerRegistrationViews(SuccessMessageMixin, CreateView):
     model = Owner
     fields = "__all__"
     context_object_name = "form"
-    success_url = "/dashboard/"
+    success_url = reverse_lazy("dashboard")
     success_message = "%(full_name)s was created successfully"
     template_name = "content/create.html"
 
@@ -33,7 +33,7 @@ class OwnerRegistrationsUpdateViews(SuccessMessageMixin, UpdateView):
     model = Owner
     fields = "__all__"
     context_object_name = "form"
-    success_url = "/dashboard/"
+    success_url = reverse_lazy("dashboard")
     success_message = "%(full_name)s was updated successfully"
     template_name = "content/update.html"
     
@@ -59,7 +59,7 @@ class CarRegistrationCreateView(SuccessMessageMixin, CreateView):
     model = CarRegisteration
     fields = "__all__"
     context_object_name = "form"
-    success_url = "/dashboard/"
+    success_url = reverse_lazy("dashboard")
     success_message = "%(vehicle_type)s was created successfully"
     template_name = "content/car_create.html"
 
@@ -69,6 +69,7 @@ class CarRegistrationUpdateViews(SuccessMessageMixin, UpdateView):
     model = CarRegisteration
     fields = "__all__"
     context_object_name = "cars"
+    success_url = reverse_lazy("dashboard")
     template_name = "content/car_update.html"
 
 
@@ -90,7 +91,7 @@ class ApproveListViews(ListView):
 class ApproveCreateViews(SuccessMessageMixin, CreateView):
     model = Approved_Centres
     template_name = "content/state_create.html"
-    success_url = "/dashboar/"
+    success_url = reverse_lazy("dashboard")
     success_message = "%(state)s was approved successfully"
 
 

@@ -36,27 +36,22 @@
         <th scope="col">Full Name</th>
         <th scope="col">Sex</th>
         <th scope="col">Occupation</th>
+        <th scope="col">Local government</th>
+        <th scope="col">State</th>
+        
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-      </tr>
-      <tr>
-        <th scope="row">2</th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-      </tr>
-      <tr>
-        <th scope="row">3</th>
-        <td>Larry</td>
-        <td>the Bird</td>
-        <td>@twitter</td>
-      </tr>
+      {% for owner in owners %}
+        <tr>
+          <th>{{ owner.id }}</th>
+          <td>{{ owner.full_name }}</td>
+          <td>{{ owner.sex }}</td>
+          <td>{{ owner.occupation }}</td>
+          <td>{{ owner.local_government }}</td>
+          <td>{{ owner.state }}</td>
+        </tr>
+      {% endfor %}
     </tbody>
   </table>
 {% endblock content  %}

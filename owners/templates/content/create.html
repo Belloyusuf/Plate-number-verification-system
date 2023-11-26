@@ -8,10 +8,58 @@
 <!-- Include the side header  -->
 {% include "include/header.html" %}
 
-<div class="teacher-board">
-    <form action="">
-        {{ form|crispy }}
+<div class="register">
+    <div class="jumbotron mt-3" style=" margin-top:5%; background-color:#343A40; color:white;">
+       <h2 style="text-align:center;">Register</h2>
+    </div>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <div class="form-row">
+           <div class="form-group col-md-6">
+           {{ form.full_name|as_crispy_field }}
+           </div>
+           <div class="form-group col-md-6">
+           {{ form.sex|as_crispy_field }}
+           </div>
+        </div>
+        <div class="form-row">
+           <div class="form-group col-md-6">
+           {{ form.marital_status|as_crispy_field }}
+           </div>
+           <div class="form-group col-md-6">
+           {{ form.occupation|as_crispy_field }}
+           </div>
+        </div>
+        <div class="form-row">
+           <div class="form-group col-md-6">
+           {{ form.date_of_birth|as_crispy_field }}
+           </div>
+           <div class="form-group col-md-6">
+           {{ form.phone|as_crispy_field }}
+           </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-12">
+            {{ form.email|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-12">
+                {{ form.residential_address|as_crispy_field }}
+            </div>
+    
+         </div>
+        <div class="form-row">
+           <div class="form-group col-md-4">
+           {{ form.state|as_crispy_field }}
+           </div>
+           <div class="form-group col-md-4">
+           {{ form.local_government|as_crispy_field }}
+           </div>
+           <div class="form-group col-md-4">
+            {{ form.nationality|as_crispy_field }}
+            </div>
+        </div>
+    <!-- <button type="submit" class="btn btn-primary mb-5">Add product</button> -->
+         <input type="submit" value="Register new" class="btn btn-primary mb-5">
     </form>
-</div>
 
 {% endblock content  %}
