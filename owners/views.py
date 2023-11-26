@@ -72,7 +72,6 @@ class CarRegistrationUpdateViews(SuccessMessageMixin, UpdateView):
     template_name = "content/car_update.html"
 
 
-
 # Car Registration Detail Views
 class CarRegistrationDetailViews(DetailView):
     model = CarRegisteration
