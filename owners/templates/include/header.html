@@ -1,28 +1,28 @@
 <div class="cards">
-    <a  href="{% url 'dashboard'%}" >  
-        <div class="card-content" {% if request.resolver_match.view_name == 'dashboard' %} style="background-color: blue; color:white;" {% endif %}>
+    <a  href="{% url 'car-create'%}" >  
+        <div class="card-content" {% if request.resolver_match.view_name == 'car-create' %} style="background-color: blue; color:white;" {% endif %}>
             <span><i class="fa fa-layer-group"></i></span> New Vehicle Registration
         </div>
     </a>
-    <a href="">
-        <div class="card-content" {% if request.resolver_match.view_name == 'product-list' %} style="background-color: blue; color:white;" {% endif %}>
+    <a href="{% url 'car-list' %}">
+        <div class="card-content" {% if request.resolver_match.view_name == 'car-list' %} style="background-color: blue; color:white;" {% endif %}>
             <span></span> Existed Registration
         </div>
     </a>
-    <a href="">
+    <a href="{% url "owner-create" %}">
         <div class="card-content" 
-        {% if request.resolver_match.view_name == 'category-create' or request.resolver_match.view_name == 'category-list'%} 
+        {% if request.resolver_match.view_name == 'owner-create' or request.resolver_match.view_name == 'owner-update'%} 
             style="background-color: blue; color:white;" 
         {% endif %}>
-           Vehicle Revalidation
+           Register new
         </div>
     </a>
-    <a href="">
+    <a href="{% url 'owner-list' %}">
         <div class="card-content"      
-        {% if request.resolver_match.view_name == 'batch-create' or request.resolver_match.view_name == 'batch-list' %}
+        {% if request.resolver_match.view_name == 'owner-list' or request.resolver_match.view_name == 'owner-detail' %}
             style="background-color: blue; color:white;" 
         {% endif %}>
-            Verify Plate Number
+            View all registred
         </div>
     </a>
 </div>

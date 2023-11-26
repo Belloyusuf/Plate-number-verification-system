@@ -128,4 +128,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # Crispy forms template pack
-CRISPY_TEMPLATE_PACK = 'Bootstrap4'
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL ='dashboard' 
+LOGOUT_URL = 'logout'
