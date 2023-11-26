@@ -48,7 +48,7 @@ class OwnerRegistrationsDisplayViews(DetailView):
 
 
 # Car registration list views
-class CarRegistrationViews(ListView):
+class CarRegistrationListViews(ListView):
     model = CarRegisteration
     context_object_name = "cars"
     template_name = "content/car_list.html"
