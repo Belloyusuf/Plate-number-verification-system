@@ -6,7 +6,7 @@
     </a>
     <a href="{% url 'car-list' %}">
         <div class="card-content" {% if request.resolver_match.view_name == 'car-list' %} style="background-color: blue; color:white;" {% endif %}>
-            <span></span> Existed Registration
+            <span></span> Existed Vehicle Registration
         </div>
     </a>
     <a href="{% url "owner-create" %}">

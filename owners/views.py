@@ -52,6 +52,7 @@ class OwnerRegistrationsDisplayViews(DetailView):
 class CarRegistrationListViews(ListView):
     model = CarRegisteration
     context_object_name = "cars"
+    paginate_by = 10
     template_name = "content/car_list.html"
 
 
