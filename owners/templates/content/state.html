@@ -10,29 +10,20 @@
 
 
 <table class="table jumbotron">
-    <h3>Enrolled </h3>
+    <h3>Approve Centers  <span><a href="{% url 'state-create' %}" class="btn btn-primary">Register new Center</a></span></h3>
     <thead>
       <tr>
         <th scope="col">S/N</th>
-        <th scope="col">Full Name</th>
-        <th scope="col">Sex</th>
-        <th scope="col">Occupation</th>
-        <th scope="col">Local government</th>
         <th scope="col">State</th>
-        
+        <th scope="col">Location</th>
       </tr>
     </thead>
     <tbody>
-      {% for owner in owners %}
+      {% for state in states %}
         <tr>
-          <th>{{ owner.id }}</th>
-          <td>
-            <a href="{% url 'owner-update' owner.id %}">{{ owner.full_name }}</a>
-          </td>
-          <td>{{ owner.sex }}</td>
-          <td>{{ owner.occupation }}</td>
-          <td>{{ owner.local_government }}</td>
-          <td>{{ owner.state }}</td>
+          <th>{{ state.id }}</th>
+          <td>{{ state.state }}</td>
+          <td>{{ state.location }}</td>
         </tr>
       {% endfor %}
     </tbody>
