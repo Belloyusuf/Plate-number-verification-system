@@ -11,7 +11,8 @@
     <div class="jumbotron">
         <h3>Approve Center Registration </h3>
     </div>
-    <form action="">
+    <form action="" method="post">
+        {% csrf_token %}
         {{ form|crispy }}
         <button type="submit" class="btn btn-success">Create</button>
     </form>
