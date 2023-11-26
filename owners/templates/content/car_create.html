@@ -10,10 +10,12 @@
 
 <div class="register">
     <div class="jumbotron mt-3" style=" margin-top:5%; background-color:#343A40; color:white;">
-       <h2 style="text-align:center;">Register</h2>
+       <h2 style="text-align:center;">Register new Car</h2>
     </div>
     <form action="" method="POST">
         {% csrf_token %}
+
+
         <div class="form-row">
            <div class="form-group col-md-6">
            {{ form.owner|as_crispy_field }}
@@ -22,6 +24,7 @@
            {{ form.vehicle_category|as_crispy_field }}
            </div>
         </div>
+
         <div class="form-row">
            <div class="form-group col-md-6">
            {{ form.vehicle_sub_category|as_crispy_field }}
@@ -30,14 +33,16 @@
            {{ form.old_plate_number|as_crispy_field }}
            </div>
         </div>
+
         <div class="form-row">
            <div class="form-group col-md-6">
-           {{ form. vehicle_make|as_crispy_field }}
+           {{ form.vehicle_make|as_crispy_field }}
            </div>
            <div class="form-group col-md-6">
            {{ form.color|as_crispy_field }}
            </div>
         </div>
+
         <div class="form-row">
             <div class="form-group col-md-12">
             {{ form.fuel_type|as_crispy_field }}
@@ -47,19 +52,42 @@
             </div>
     
          </div>
+
         <div class="form-row">
            <div class="form-group col-md-4">
-           {{ form.state|as_crispy_field }}
+           {{ form.model |as_crispy_field }}
            </div>
            <div class="form-group col-md-4">
-           {{ form.local_government|as_crispy_field }}
+           {{ form.engine_number|as_crispy_field }}
            </div>
            <div class="form-group col-md-4">
-            {{ form.nationality|as_crispy_field }}
+            {{ form.policy_number|as_crispy_field }}
             </div>
         </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+            {{ form.tank_capacity|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-6">
+            {{ form.odometer|as_crispy_field }}
+            </div>
+         </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-4">
+            {{ form.vehicle_type |as_crispy_field }}
+            </div>
+            <div class="form-group col-md-4">
+            {{ form.chassis_no|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-4">
+             {{ form.engine_capacity|as_crispy_field }}
+             </div>
+         </div>
+         
     <!-- <button type="submit" class="btn btn-primary mb-5">Add product</button> -->
-         <input type="submit" value="Register new" class="btn btn-primary mb-5">
+         <input type="submit" value="Register new car" class="btn btn-primary mb-5">
     </form>
 
 {% endblock content  %}
