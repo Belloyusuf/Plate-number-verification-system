@@ -7,5 +7,56 @@
 {% block content  %}
 <!-- Include the side header  -->
 {% include "include/header.html" %}
+<div class="jumbotron border shadow">
+    <!-- Search jumbotron  -->
+    <div class="row">
+        <div class="col-md-8 offset-2">
+            <form action="/search">
+               <div class="input-group">
+                    <input type="text" name="q" placeholder="Verify Registred" required
+                    class="form-control form-control-lg">
+                    <div class="input-group-append">
+                      <button class="btn btn-dark btn-lg"> <span> <i class="fa fa-search"></i></span></button>
+                    </div>
+               </div>
+              </form>
+              <p style="text-align: center;"> 
+                <b></b> 
+                <span class="text-muted">Search registered user</span>
+              </p>
+        </div>
+    </div>
+ </div> <!-- End of search input-->   
 
+<table class="table jumbotron">
+    <h3>Enrolled </h3>
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">First</th>
+        <th scope="col">Last</th>
+        <th scope="col">Handle</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">1</th>
+        <td>Mark</td>
+        <td>Otto</td>
+        <td>@mdo</td>
+      </tr>
+      <tr>
+        <th scope="row">2</th>
+        <td>Jacob</td>
+        <td>Thornton</td>
+        <td>@fat</td>
+      </tr>
+      <tr>
+        <th scope="row">3</th>
+        <td>Larry</td>
+        <td>the Bird</td>
+        <td>@twitter</td>
+      </tr>
+    </tbody>
+  </table>
 {% endblock content  %}
