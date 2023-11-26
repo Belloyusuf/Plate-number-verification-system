@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 from . views import OwnerRegistrationListViews, OwnerRegistrationsDisplayViews, OwnerRegistrationsUpdateViews, \
                     OwnerRegistrationViews, CarRegistrationCreateView, CarRegistrationDetailViews, \
-                    CarRegistrationUpdateViews, CarRegistrationListViews
+                    CarRegistrationUpdateViews, CarRegistrationListViews, ApproveCreateViews, ApproveListViews
 
 urlpatterns = [
     # Owner urls
@@ -15,5 +15,8 @@ urlpatterns = [
     path("car-list/", CarRegistrationListViews.as_view(), name="car-list"),
     path("car-create/", CarRegistrationCreateView.as_view(), name="car-create"),
     path("car-update/", CarRegistrationUpdateViews.as_view(), name="car-update"),
-    path("car-detail/", CarRegistrationDetailViews.as_view(), name="")
+    path("car-detail/", CarRegistrationDetailViews.as_view(), name=""),
+    # Approve State
+    path("approve-state-create/", ApproveCreateViews.as_view(), name="state-create"),
+    path("approve-state-list/", ApproveListViews.as_view(), name="state-list"),
 ]
