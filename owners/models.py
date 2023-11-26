@@ -99,7 +99,7 @@ class CarRegisteration(TimeModels):
         ("Between 1.6 and 2.0", "Between 1.6 and 2.0"),
         ("Between 2.1 and 3.0", "Between 2.1 and 3.0"),
     )
-
+    owner = models.ForeignKey(Owner, verbose_name=("Owner"), on_delete=models.CASCADE)
     vehicle_category = models.CharField(choices=VEHICLE_CATEGORIES, max_length=15)
     vehicle_sub_category = models.CharField(choices=VEHICLE_SUB_CATEGORY, max_length=50)
     old_plate_number = models.CharField(max_length=20)
