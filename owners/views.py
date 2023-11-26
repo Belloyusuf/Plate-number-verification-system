@@ -77,3 +77,19 @@ class CarRegistrationDetailViews(DetailView):
     model = CarRegisteration
     context_object_name = "cars"
     template_name = "content/car_detail.html"
+
+
+#  Approve state list views
+class ApproveListViews(ListView):
+    model = Approved_Centres
+    context_object_name = "states"
+    template_name = "content/state.html"
+
+
+# Approve state create views
+class ApproveCreateViews(SuccessMessageMixin, CreateView):
+    model = Approved_Centres
+    fields = "__all__"
+    template_name = "content/state_create.html"
+    success_url = "/dashboar/"
+    success_message = "%(state)s was approved successfully"
