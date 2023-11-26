@@ -16,17 +16,17 @@ class Owner(TimeModels):
 
     SEX_TYPE = (
         ("Male", "Male"),
-        ("Female", "Female")
+        ("Female", "Female"),
     )
     MARITAL_STATUS = (
         ("Single", "Single"),
         ("Married", "Married"),
-        ("Divorced", "Divorced")
+        ("Divorced", "Divorced"),
     )
     OCCUPATION = (
         ("Student", "Student"),
         ("Civil Servant", "Civil Servant"),
-        ("Business", "Business")
+        ("Business", "Business"),
     )
 
     full_name = models.CharField(max_length=20)
@@ -56,7 +56,7 @@ class CarRegisteration(TimeModels):
     VEHICLE_CATEGORIES = (
         ("Government", "Government"),
         ("Commercial", "Commercial"),
-        ("Private", "Private")
+        ("Private", "Private"),
     )
 
     VEHICLE_SUB_CATEGORY = (
@@ -64,7 +64,7 @@ class CarRegisteration(TimeModels):
         ("Federal Parastatals/Agencies/Department", "Federal Parastatals/Agencies/Department"),
         ("LGA", "LGA"),
         ("Military/Paramilitaries", "Military/Paramilitaries"),
-        ("State Ministries/Agencies/Department")
+        ("State Ministries/Agencies/Department", "State Ministries/Agencies/Department"),
     )
 
     VEHICLE_MAKE = (
@@ -72,13 +72,13 @@ class CarRegisteration(TimeModels):
         (1617, 1617),
         (190, 190),
         (420, 420),
-        ("5 SERIES", "5 SERIES")
+        ("5 SERIES", "5 SERIES"),
     )
 
     FUEL_TYPE = (
         ("Petrol", "Petrol"),
         ("Diesel", "Diesel"),
-        ("Bio-Fuel", "Bio-Fuel")
+        ("Bio-Fuel", "Bio-Fuel"),
     )
 
     VEHICLE_TYPE = (
@@ -90,18 +90,18 @@ class CarRegisteration(TimeModels):
         ("Audi", "Audi"),
         ("Jeep", "Jeep"),
         ("Mazda", "Mazda"),
-        ("Nissan", "Nissan")
+        ("Nissan", "Nissan"),
     )
 
     ENGINE_CAPACITY =(
         ("Above 3.0", "Above 3.0"),
         ("Below 1.6", "Below 1.6"),
         ("Between 1.6 and 2.0", "Between 1.6 and 2.0"),
-        ("Between 2.1 and 3.0", "Between 2.1 and 3.0")
+        ("Between 2.1 and 3.0", "Between 2.1 and 3.0"),
     )
 
     vehicle_category = models.CharField(choices=VEHICLE_CATEGORIES, max_length=15)
-    vehicle_sub_category = models.CharField(choices=VEHICLE_SUB_CATEGORY, max_length=15)
+    vehicle_sub_category = models.CharField(choices=VEHICLE_SUB_CATEGORY, max_length=50)
     old_plate_number = models.CharField(max_length=20)
     vehicle_make = models.CharField(max_length=10)
     color = models.CharField(max_length=10)
