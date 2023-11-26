@@ -14,6 +14,7 @@ def dashboard(request):
 #  List car owners
 class OwnerRegistrationListViews(ListView):
     model = Owner
+    paginate_by = 10
     context_object_name = "owners"
     template_name = "content/list.html"
 

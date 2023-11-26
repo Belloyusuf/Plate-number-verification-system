@@ -1,0 +1,18 @@
+  <!-- Paginator -->
+  <div class="pagination justify-content-end">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+        <a class="view-all-btn btn-sm" href="?page=1">First</a>                      
+        <a class="view-all-btn btn-sm" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a class="view-all-btn btn-sm" href="?page={{ page_obj.next_page_number }}">Next</a>
+            <a class="view-all-btn btn-sm" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+        {% endif %}
+    </span>
+</div>
