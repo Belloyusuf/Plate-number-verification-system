@@ -1,0 +1,28 @@
+<div class="cards">
+    <a  href="{% url 'dashboard'%}" >  
+        <div class="card-content" {% if request.resolver_match.view_name == 'dashboard' %} style="background-color: blue; color:white;" {% endif %}>
+            <span><i class="fa fa-layer-group"></i></span> New Vehicle Registration
+        </div>
+    </a>
+    <a href="">
+        <div class="card-content" {% if request.resolver_match.view_name == 'product-list' %} style="background-color: blue; color:white;" {% endif %}>
+            <span></span> Existed Registration
+        </div>
+    </a>
+    <a href="">
+        <div class="card-content" 
+        {% if request.resolver_match.view_name == 'category-create' or request.resolver_match.view_name == 'category-list'%} 
+            style="background-color: blue; color:white;" 
+        {% endif %}>
+           Vehicle Revalidation
+        </div>
+    </a>
+    <a href="">
+        <div class="card-content"      
+        {% if request.resolver_match.view_name == 'batch-create' or request.resolver_match.view_name == 'batch-list' %}
+            style="background-color: blue; color:white;" 
+        {% endif %}>
+            Verify Plate Number
+        </div>
+    </a>
+</div>

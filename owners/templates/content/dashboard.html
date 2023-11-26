@@ -3,6 +3,31 @@
 {% block title %} dashboard {% endblock title %}
 
 {% block content  %}
+<!-- Include the side header  -->
+{% include "include/header.html" %}
 
+<!-- Search input  -->
+<div class="jumbotron border shadow">
+    <!-- Search jumbotron  -->
+    <div class="row">
+        <div class="col-md-8 offset-2">
+            <form action="/search">
+               <div class="input-group">
+                    <input type="text" name="q" placeholder="Verify car plate number" required
+                    class="form-control form-control-lg">
+                    <div class="input-group-append">
+                      <button class="btn btn-dark btn-lg"> <span> <i class="fa fa-search"></i></span></button>
+                    </div>
+               </div>
+              </form>
+              <p style="text-align: center;"> 
+                <b></b> 
+                <span class="text-muted">Verify Plate Number</span>
+              </p>
+        </div>
+    </div>
+ </div> <!-- End of search input-->   
+
+ {% include "include/about.html" %} <!-- Include about us note-->
 
 {% endblock content  %}
