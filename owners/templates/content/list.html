@@ -45,7 +45,9 @@
       {% for owner in owners %}
         <tr>
           <th>{{ owner.id }}</th>
-          <td>{{ owner.full_name }}</td>
+          <td>
+            <a href="{% url 'owner-update' owner.id %}">{{ owner.full_name }}</a>
+          </td>
           <td>{{ owner.sex }}</td>
           <td>{{ owner.occupation }}</td>
           <td>{{ owner.local_government }}</td>
