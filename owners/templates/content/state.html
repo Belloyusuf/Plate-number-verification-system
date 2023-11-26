@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %} approve-centers {% endblock title %}
+
+
+{% block content  %}
+<!-- Include the side header  -->
+{% include "include/header.html" %}
+
+
+<table class="table jumbotron">
+    <h3>Enrolled </h3>
+    <thead>
+      <tr>
+        <th scope="col">S/N</th>
+        <th scope="col">Full Name</th>
+        <th scope="col">Sex</th>
+        <th scope="col">Occupation</th>
+        <th scope="col">Local government</th>
+        <th scope="col">State</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+      {% for owner in owners %}
+        <tr>
+          <th>{{ owner.id }}</th>
+          <td>
+            <a href="{% url 'owner-update' owner.id %}">{{ owner.full_name }}</a>
+          </td>
+          <td>{{ owner.sex }}</td>
+          <td>{{ owner.occupation }}</td>
+          <td>{{ owner.local_government }}</td>
+          <td>{{ owner.state }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% include "include/pagination.html" %}
+
+{% endblock content  %}
