@@ -11,6 +11,18 @@ def dashboard(request):
 
 
 
+def search(request):
+    q = request.GET['q']
+    plate_number = CarRegisteration.objects.filter(old_plate_number__contain=q)
+    data = CarRegisteration.objects.filter(old_plate_number__contain=q)
+    
+    return render(request,   'content/search.html',{
+        'plate_number':plate_number,
+        'data':data
+    })
+
+
+
 #  List car owners
 class OwnerRegistrationListViews(ListView):
     model = Owner
