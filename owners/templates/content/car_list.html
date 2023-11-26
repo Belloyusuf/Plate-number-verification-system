@@ -8,6 +8,37 @@
 <!-- Include the side header  -->
 {% include "include/header.html" %}
 
-
+<table class="table jumbotron">
+    <h3>Enrolled </h3>
+    <thead>
+      <tr>
+        <th scope="col">S/N</th>
+        <th scope="col">Owner's Name</th>
+        <th scope="col">Vehicle Category</th>
+        <th scope="col">Vehicle Sub-category</th>
+        <th scope="col">Model</th>
+        <th scope="col">Color</th>
+        <th scope="col">Engine Number</th>
+        <th scope="col">Old Plate Number</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for car in cars%}
+        <tr>
+          <th>{{ car.id }}</th>
+          <td>
+            {{ car.owner }}
+          </td>
+          <td>{{ car.vehicle_category }}</td>
+          <td>{{ car.vehicle_sub_category}}</td>
+          <td>{{ car.model }}</td>
+          <td>{{ car.color }}</td>
+          <td>{{ car.engine_number }}</td>
+          <td>{{ car.old_plate_number }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% include "include/pagination.html" %}
 
 {% endblock content  %}

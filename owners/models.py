@@ -113,7 +113,7 @@ class CarRegisteration(TimeModels):
     vehicle_type = models.CharField(("Vehicle Type/Group"), choices=VEHICLE_TYPE, max_length=50)
     chassis_no = models.CharField(("Chassis Number"), max_length=15)
     engine_capacity = models.CharField(choices=ENGINE_CAPACITY, max_length=50)
-    tank_capacity = models.CharField(max_length=5)
+    tank_capacity = models.CharField(max_length=50)
     odometer = models.CharField(max_length=15)
 
     def __str__(self):
