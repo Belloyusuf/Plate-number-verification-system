@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
-from . models import Owner, CarRegisteration
+from . models import Owner, CarRegisteration, Approved_Centres
 from django.contrib.messages.views import SuccessMessageMixin
 
 
