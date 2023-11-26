@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %} approve-state-create {% endblock title %}
+
+
+{% block content  %}
+<!-- Include the side header  -->
+{% include "include/header.html" %}
+<div class="register">
+    <div class="jumbotron">
+        <h3>Approve Center Registration </h3>
+    </div>
+    <form action="">
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-success">Create</button>
+    </form>
+
+</div>
+
+
+{% endblock content  %}

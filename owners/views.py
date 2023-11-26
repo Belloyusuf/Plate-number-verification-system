@@ -92,6 +92,7 @@ class ApproveListViews(ListView):
 # Approve state create views
 class ApproveCreateViews(SuccessMessageMixin, CreateView):
     model = Approved_Centres
+    fields = "__all__"
     template_name = "content/state_create.html"
     success_url = reverse_lazy("dashboard")
     success_message = "%(state)s was approved successfully"
