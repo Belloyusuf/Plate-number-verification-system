@@ -1,15 +1,15 @@
 <div class="cards">
-    <a  href="{% url 'car-create'%}" >  
+    <a  href="{% url 'car-create'%}"  style="text-decoration: none;">  
         <div class="card-content" {% if request.resolver_match.view_name == 'car-create' %} style="background-color: blue; color:white;" {% endif %}>
-            <span><i class="fa fa-layer-group"></i></span> New Vehicle Registration
+            New Vehicle Registration
         </div>
     </a>
-    <a href="{% url 'car-list' %}">
+    <a href="{% url 'car-list' %}" style="text-decoration: none;">
         <div class="card-content" {% if request.resolver_match.view_name == 'car-list' %} style="background-color: blue; color:white;" {% endif %}>
-            <span></span> Existed Vehicle Registration
+            Existed Vehicle Registration
         </div>
     </a>
-    <a href="{% url "owner-create" %}">
+    <a href="{% url 'owner-create' %}" style="text-decoration: none;">
         <div class="card-content" 
         {% if request.resolver_match.view_name == 'owner-create' or request.resolver_match.view_name == 'owner-update'%} 
             style="background-color: blue; color:white;" 
@@ -17,7 +17,7 @@
            Register new
         </div>
     </a>
-    <a href="{% url 'owner-list' %}">
+    <a href="{% url 'owner-list' %}" style="text-decoration: none;">
         <div class="card-content"      
         {% if request.resolver_match.view_name == 'owner-list' or request.resolver_match.view_name == 'owner-detail' %}
             style="background-color: blue; color:white;" 
