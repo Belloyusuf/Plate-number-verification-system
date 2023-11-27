@@ -14,7 +14,7 @@
   {% if forms.errors %}
   	<p> Your username and pasword didn't match. Please try again </p>
   {% else %}
-    <h3 class="login-welcome">Digital Library</h3>
+    <h3 class="login-welcome" style="text-align:center;">Plate number verification</h3>
     <hr />
     <form action="{% url 'login'%}" method="post">
       {% csrf_token %}
@@ -22,7 +22,6 @@
       
       <button type="submit" class="btn btn-primary btn-block btn-sm">Login</button>
       <p> <input type="hidden" name="next" value="{{ next }}" />
-      <p class="text-center">Create Account <a href="{% url 'register'%}">Sign up Here</a> </p>
     </form>
   </div>
   {% endif %}
