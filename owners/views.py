@@ -10,7 +10,7 @@ def dashboard(request):
     return render(request, 'content/dashboard.html')
 
 
-
+# Search plate numbers
 def search(request):
     q = request.GET['q']
     plate_number = CarRegisteration.objects.filter(old_plate_number__contains=q)
@@ -19,6 +19,16 @@ def search(request):
     return render(request,   'content/search.html',{
         'plate_number':plate_number,
         'data':data
+    })
+
+# Search users/owners
+def searchUser(request):
+    query = request.GET['query']
+    users = Owner.objects.filter(full_name__contains=query)
+    user_data = Owner.objects.filter(full_name__contains=query)
+    return render(request, 'content/search_owner.html', {
+        'users':users,
+        'user_data':user_data
     })
 
 
