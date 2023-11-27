@@ -24,6 +24,7 @@ def search(request):
     })
 
 # Search users/owners
+
 def searchUser(request):
     query = request.GET['query']
     users = Owner.objects.filter(full_name__icontains=query)
@@ -36,7 +37,7 @@ def searchUser(request):
 
 
 #  List car owners
-class OwnerRegistrationListViews(ListView):
+class OwnerRegistrationListViews(LoginRequiredMixin, ListView):
     model = Owner
     paginate_by = 10
     context_object_name = "owners"
@@ -44,7 +45,7 @@ class OwnerRegistrationListViews(ListView):
 
 
 #  Create views for car owners
-class OwnerRegistrationViews(SuccessMessageMixin, CreateView):
+class OwnerRegistrationViews(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Owner
     fields = "__all__"
     context_object_name = "form"
@@ -54,7 +55,7 @@ class OwnerRegistrationViews(SuccessMessageMixin, CreateView):
 
 
 # Update views for car owners
-class OwnerRegistrationsUpdateViews(SuccessMessageMixin, UpdateView):
+class OwnerRegistrationsUpdateViews(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Owner
     fields = "__all__"
     context_object_name = "form"
@@ -73,7 +74,7 @@ class OwnerRegistrationsDisplayViews(DetailView):
 
 
 # Car registration list views
-class CarRegistrationListViews(ListView):
+class CarRegistrationListViews(LoginRequiredMixin, ListView):
     model = CarRegisteration
     context_object_name = "cars"
     paginate_by = 10
@@ -81,7 +82,7 @@ class CarRegistrationListViews(ListView):
 
 
 #  Car Registration create views
-class CarRegistrationCreateView(SuccessMessageMixin, CreateView):
+class CarRegistrationCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = CarRegisteration
     fields = "__all__"
     context_object_name = "form"
@@ -91,7 +92,7 @@ class CarRegistrationCreateView(SuccessMessageMixin, CreateView):
 
 
 # Car Registration Update Views
-class CarRegistrationUpdateViews(SuccessMessageMixin, UpdateView):
+class CarRegistrationUpdateViews(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = CarRegisteration
     fields = "__all__"
     context_object_name = "cars"
@@ -107,14 +108,14 @@ class CarRegistrationDetailViews(DetailView):
 
 
 #  Approve state list views
-class ApproveListViews(ListView):
+class ApproveListViews(LoginRequiredMixin, ListView):
     model = Approved_Centres
     context_object_name = "states"
     template_name = "content/state.html"
 
 
 # Approve state create views
-class ApproveCreateViews(SuccessMessageMixin, CreateView):
+class ApproveCreateViews(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Approved_Centres
     fields = "__all__"
     template_name = "content/state_create.html"
