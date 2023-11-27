@@ -1,12 +1,38 @@
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponse
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
 from . models import Owner, CarRegisteration, Approved_Centres
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
+from . forms import LoginForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login
 
 
-# Create your views here.
+@login_required
+def user_login(request):
+    """ user login view """
+    if request.methond == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            user = authenticate(request,
+                                username=cd['username'],
+                                password=cd['password']
+                            )
+            if user is not None:
+                if user.is_active:
+                    login(request, user)
+                    return HttpResponse('Login sucessfully')
+                else:
+                    return HttpResponse('Disable')
+            else:
+                return HttpResponse('Invalid Account')
+    else:
+        form = LoginForm()
+    return render(request, 'registration/login.html')
+
+
 
 def dashboard(request):
     return render(request, 'content/dashboard.html')
