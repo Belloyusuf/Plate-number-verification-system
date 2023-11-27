@@ -3,6 +3,8 @@ from django.views.generic import ListView, CreateView, UpdateView, DetailView
 from . models import Owner, CarRegisteration, Approved_Centres
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 
 # Create your views here.
 
