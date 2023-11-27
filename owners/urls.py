@@ -19,4 +19,6 @@ urlpatterns = [
     # Approve State
     path("approve-state-create/", ApproveCreateViews.as_view(), name="state-create"),
     path("approve-state-list/", ApproveListViews.as_view(), name="state-list"),
+    # Searching by plate number
+    path("search", views.search, name="search"),
 ]

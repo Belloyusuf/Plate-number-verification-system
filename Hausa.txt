@@ -1,0 +1,74 @@
+Yadda zaka sai ta python3 da kuma django domin kunna software dinka
+
+1 - Da farko zaka yi installing na shi python3 din. Zaka same shi a wannan addreshing  https://www.python.org/downloads/windows/
+    ka kwafi wannan addreshin sai kasa a cikin browser dinka misali, kamar Google Chrome, ko kuma Opera, Ko internet Explorer
+
+2 - Idan ka gama sai ka tabba tar daya yi installing din ko bai ba
+    . Ka danna windows key "Ma'ana akwai wani madanni a jikin computer ka na 3 daga hannun hagu, wanda aka yi masa wani zane mai tambarin windows"
+    . Ka danne shi sannan sai ka danna madannin r, wato windows + r. Zai bude maka wani page, zaka ganishi baki wai dauke da wasu rubutu, zai yi
+    . maka kama da wanda hacker suke hacking amma bashi bane.  wannan shi ake kira da CMD
+
+    ==> Hanya ta biyu kuma wajen bude CMD din shine, kaje ka inda kake searching a computer ka sai ka rubuta CMD, zai nuna maka sai ka danna enter akanshi
+
+    *** Ta ko wacce hanya zaka iya budewa CMD din kuma zai ma aiki yadda ake bukata, bayan ya bude sai ka rubuta wannan command din domin ka tabbatar da python ya sauka cikin computer ka
+
+    1. python
+    2. python3
+
+    Na rubuta guda biyun ne domin inda na farko baima aiki ba to dole na biyu zaima aki. Inda har python din ya sauka computer ka zaka ga rubutu kamar haka
+
+    bello@localhost:~/Documents/Final Year projects/Prison/Project Package/Software> python3
+    Python 3.6.15 (default, Sep 23 2021, 15:41:43) [GCC] on linux
+    Type "help", "copyright", "credits" or "license" for more information.
+    >>>
+
+    Inda kuma bai sauka ba zaka ga wani rubutun bayan wannan, sai ka sake downloading dinsa ka kuma sake installing
+
+==>   indan ya bude sai ka dauko folder mai dauke da sunan software ka dawo da ita kan desktop din computer dinka
+==>   Sai ka sake danna windows + r (Wanda muka yi maganar sa a baya wato CMD)
+==>   Inda ka bude sai ka rubuta
+--        cd Software
+
+cd Software tana nufin change directory to software folder
+
+Bayan nan sai ka rubuta
+
+    python -m pip install -U pip
+
+Inda ka rubuta wannan sai kuma ka rubuta
+
+    pip install requirements.txt
+
+Wannan command din zai maka installing duk wani abu software din take bukata domin kunnuwarta
+
+inda ya gama sai ka rubuta  wannan command din kuma shine command na karshe domin kunna software din, karfa ka manta duk a cikin CMD Zaka yi wannan rubutu
+
+    python3 manage.py runserver
+
+
+Idan kayi komai dai-dai zai nuna ma wani rubutu kamar haka
+
+
+bello@localhost:~/Documents/Final Year projects/Prison/Project Package/Software> python3 manage.py runserver
+Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+November 24, 2023 - 08:16:26
+Django version 3.2.20, using settings 'nysc.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.
+
+Indai har kaga haka, to kayi murna domin komai ya tafi yadda ake son. Abu na karshe shine sai ka kwafi wannan addreshin kasa a cikin browser din ka (Application din da kake browsing )
+
+    http://127.0.0.1:8000/
+
+sai ka danna enter. Komai zai bude
+
+Username: admin
+Password: test
+
+
+
+Thanks. Bello Yusuf
+
