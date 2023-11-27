@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} search-owner {% endblock title %}
+
+
+{% block content  %}
+<!-- Include the side header  -->
+{% include "include/header.html" %}
+
+
+<div class="student-table" id="setting-table mt-3">
+    <div class="teacher-board">
+    <div class="heading">
+    {% if user_data.count == 0 %}
+        <h4>No car owner found with this Name </h4>
+    {% else %}
+        <span class="text-muted">{{ user_data.count }} Owner found {{ request.GET.query }}</span>
+    {% endif %}
+</div>
+
+<table class="table jumbotron">
+    <h3>Enrolled </h3>
+    <thead>
+      <tr>
+        <th scope="col">S/N</th>
+        <th scope="col">Full Name</th>
+        <th scope="col">Sex</th>
+        <th scope="col">Occupation</th>
+        <th scope="col">Local government</th>
+        <th scope="col">State</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+        {% for owner in owners %}
+          <tr>
+            <th>{{ owner.id }}</th>
+            <td>
+              <a href="{% url 'owner-update' owner.id %}">{{ owner.full_name }}</a>
+            </td>
+            <td>{{ owner.sex }}</td>
+            <td>{{ owner.occupation }}</td>
+            <td>{{ owner.local_government }}</td>
+            <td>{{ owner.state }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+  </table>
+  {% include "include/pagination.html" %}
+
+{% endblock content  %}

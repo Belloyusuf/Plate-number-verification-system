@@ -24,8 +24,8 @@ def search(request):
 # Search users/owners
 def searchUser(request):
     query = request.GET['query']
-    users = Owner.objects.filter(full_name__contains=query)
-    user_data = Owner.objects.filter(full_name__contains=query)
+    users = Owner.objects.filter(full_name__icontains=query)
+    user_data = Owner.objects.filter(full_name__icontains=query)
     return render(request, 'content/search_owner.html', {
         'users':users,
         'user_data':user_data

@@ -21,4 +21,6 @@ urlpatterns = [
     path("approve-state-list/", ApproveListViews.as_view(), name="state-list"),
     # Searching by plate number
     path("search", views.search, name="search"),
+    # Search user/Owner
+    path("search/owner", views.searchUser, name="searchUser"),
 ]
