@@ -33,12 +33,13 @@ def user_login(request):
     return render(request, 'registration/login.html')
 
 
-
+@login_required
 def dashboard(request):
     return render(request, 'content/dashboard.html')
 
 
 # Search plate numbers
+@login_required
 def search(request):
     q = request.GET['q']
     plate_number = CarRegisteration.objects.filter(old_plate_number__contains=q)
@@ -50,7 +51,7 @@ def search(request):
     })
 
 # Search users/owners
-
+@login_required
 def searchUser(request):
     query = request.GET['query']
     users = Owner.objects.filter(full_name__icontains=query)
