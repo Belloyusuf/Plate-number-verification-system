@@ -1,44 +1,87 @@
 {% extends "base.html" %}
 {% load static %}
-{% load crispy_forms_tags %}
-{% block title %} car-list {% endblock title %}
+{% block title %}Vehicle Registry{% endblock %}
 
-
-{% block content  %}
-<!-- Include the side header  -->
+{% block content %}
 {% include "include/header.html" %}
 
-<table class="table jumbotron">
-    <h3>Restered Cars </h3>
-    <thead>
-      <tr>
-        <th scope="col">S/N</th>
-        <th scope="col">Owner's Name</th>
-        <th scope="col">Vehicle Category</th>
-        <th scope="col">Vehicle Sub-category</th>
-        <th scope="col">Model</th>
-        <th scope="col">Color</th>
-        <th scope="col">Engine Number</th>
-        <th scope="col">Old Plate Number</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for car in cars%}
-        <tr>
-          <th>{{ car.id }}</th>
-          <td>
-            {{ car.owner }}
-          </td>
-          <td>{{ car.vehicle_category }}</td>
-          <td>{{ car.vehicle_sub_category}}</td>
-          <td>{{ car.model }}</td>
-          <td>{{ car.color }}</td>
-          <td>{{ car.engine_number }}</td>
-          <td>{{ car.old_plate_number }}</td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-  {% include "include/pagination.html" %}
+<div class="d-flex align-items-center justify-content-between mb-3 mt-2 flex-wrap" style="gap:12px;">
+  <div>
+    <div class="breadcrumb-trail"><a href="{% url 'dashboard' %}">Dashboard</a> <span>›</span> Vehicles</div>
+    <h2 style="font-size:1.3rem;font-weight:800;margin:0;">Vehicle Registry</h2>
+  </div>
+  <a href="{% url 'car-create' %}" class="btn-primary-ui">
+    <i class="fas fa-plus-circle"></i> Register Vehicle
+  </a>
+</div>
 
-{% endblock content  %}
+<div class="ui-table-wrap">
+  <div class="ui-table-toolbar">
+    <span class="ui-table-toolbar-title">
+      <i class="fas fa-car" style="color:var(--blue);"></i> All Vehicles
+    </span>
+    <form action="{% url 'search' %}" method="get" style="display:flex;gap:8px;align-items:center;">
+      <div class="search-bar" style="width:260px;position:relative;">
+        <input type="text" name="q" placeholder="Search plate number…" autocomplete="off"
+               value="{{ request.GET.q }}">
+        <button type="submit"><i class="fas fa-search"></i></button>
+      </div>
+    </form>
+  </div>
+
+  <div class="table-responsive">
+    <table class="ui-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Plate Number</th>
+          <th>Owner</th>
+          <th>Category</th>
+          <th>Type</th>
+          <th>Model</th>
+          <th>Color</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for car in cars %}
+        <tr>
+          <td style="color:var(--text-muted);font-size:.82rem;">{{ car.id }}</td>
+          <td><span class="plate-badge">{{ car.plate_number }}</span></td>
+          <td><strong>{{ car.owner.full_name }}</strong></td>
+          <td>
+            {% if car.vehicle_category == "Government" %}
+              <span class="badge-pill-blue">{{ car.vehicle_category }}</span>
+            {% elif car.vehicle_category == "Commercial" %}
+              <span class="badge-pill-amber">{{ car.vehicle_category }}</span>
+            {% else %}
+              <span class="badge-pill-gray">{{ car.vehicle_category }}</span>
+            {% endif %}
+          </td>
+          <td>{{ car.vehicle_type }}</td>
+          <td>{{ car.model }}</td>
+          <td>
+            <span style="display:inline-flex;align-items:center;gap:5px;">
+              <span style="width:12px;height:12px;border-radius:50%;background:{{ car.color|lower }};border:1px solid var(--border-dark);display:inline-block;"></span>
+              {{ car.color }}
+            </span>
+          </td>
+          <td>
+            <a href="{% url 'car-detail' car.id %}" class="btn-icon btn-icon--blue" title="View"><i class="fas fa-eye"></i></a>
+            <a href="{% url 'car-update' car.id %}" class="btn-icon ml-1" title="Edit"><i class="fas fa-pencil-alt"></i></a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="8" class="ui-table-empty">
+            <i class="fas fa-car-crash"></i>
+            No vehicles registered yet. <a href="{% url 'car-create' %}">Register one now</a>.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% include "include/pagination.html" %}
+</div>
+{% endblock %}

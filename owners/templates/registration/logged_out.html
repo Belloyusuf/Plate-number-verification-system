@@ -1,9 +1,214 @@
-{% extends 'base2.html'%}
-{% block title  %}logout{% endblock title  %}
+{% extends 'base2.html' %}
+{% load static %}
+{% block title %}Logged Out — ALPR System{% endblock title %}
 
 {% block content %}
-    <div class="logout">
-        <h4>Logout </h4>
-        <p>You are successfully logged out. you can login again <span> <a href="{% url 'login'%}">Login Again</a></span></p>
+<div class="row justify-content-center w-100 my-4">
+
+    <!-- Left branding panel (hidden on small screens) -->
+    <div class="col-lg-5 d-none d-lg-flex flex-column justify-content-center pr-5">
+        <div class="mb-4">
+            <div class="login-gov-badge mb-3">
+                <i class="fas fa-shield-alt mr-2"></i> Government Operations Portal
+            </div>
+            <h1 class="login-heading">Session Ended Securely</h1>
+            <p class="login-subtext">
+                Your session has been closed and your credentials have been cleared.
+                All activity during this session was logged for security purposes.
+            </p>
+        </div>
+
+        <div class="login-feature-list">
+            <div class="login-feature-item">
+                <span class="login-feature-icon"><i class="fas fa-lock"></i></span>
+                <div>
+                    <strong>Secure Logout</strong>
+                    <p>Your session token has been invalidated.</p>
+                </div>
+            </div>
+            <div class="login-feature-item">
+                <span class="login-feature-icon"><i class="fas fa-history"></i></span>
+                <div>
+                    <strong>Activity Logged</strong>
+                    <p>All actions during your session are recorded.</p>
+                </div>
+            </div>
+            <div class="login-feature-item">
+                <span class="login-feature-icon"><i class="fas fa-sign-in-alt"></i></span>
+                <div>
+                    <strong>Sign In Again</strong>
+                    <p>Return any time to continue operations.</p>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <!-- Logout card -->
+    <div class="col-12 col-sm-10 col-md-7 col-lg-5">
+        <div class="login-card text-center">
+
+            <!-- Icon -->
+            <div class="logout-icon-wrap">
+                <div class="logout-icon">
+                    <i class="fas fa-check"></i>
+                </div>
+            </div>
+
+            <div class="login-gov-badge login-gov-badge--dark mb-3">
+                Session Closed
+            </div>
+
+            <h3 class="login-card-title mb-2">You have been logged out</h3>
+            <p class="login-card-subtitle mb-4">
+                Your secure session has ended. Sign in again whenever you need
+                to continue operations.
+            </p>
+
+            <a href="{% url 'login' %}" class="login-submit-btn d-block text-decoration-none">
+                <i class="fas fa-sign-in-alt mr-2"></i> Sign In Again
+            </a>
+
+            <p class="login-card-footer">
+                Restricted to authorised personnel only.
+            </p>
+        </div>
+    </div>
+
+</div>
+
+<style>
+/* Reuse login styles already defined in login.html for consistency */
+.login-gov-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+.login-gov-badge--dark {
+    background: #eff6ff;
+    border-color: #bfdbfe;
+    color: #1d4ed8;
+}
+.login-heading {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: 16px;
+}
+.login-subtext {
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 0;
+}
+.login-feature-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-top: 32px;
+}
+.login-feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    color: rgba(255, 255, 255, 0.88);
+}
+.login-feature-item strong {
+    display: block;
+    color: #fff;
+    font-weight: 700;
+    margin-bottom: 2px;
+}
+.login-feature-item p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.68);
+}
+.login-feature-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.16);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    color: #fff;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+.login-card {
+    background: #fff;
+    border-radius: 24px;
+    padding: 36px 32px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+.login-card-title {
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: #0f172a;
+}
+.login-card-subtitle {
+    color: #64748b;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    margin: 0;
+}
+.login-submit-btn {
+    display: block;
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #1d4ed8, #2563eb);
+    color: #fff !important;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    transition: opacity .18s, transform .12s;
+    box-shadow: 0 6px 18px rgba(37, 99, 235, 0.35);
+    text-align: center;
+}
+.login-submit-btn:hover {
+    opacity: .9;
+    transform: translateY(-1px);
+    text-decoration: none;
+    color: #fff !important;
+}
+.login-card-footer {
+    text-align: center;
+    margin: 18px 0 0;
+    font-size: 0.82rem;
+    color: #9ca3af;
+}
+
+/* Logout-specific icon */
+.logout-icon-wrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.logout-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #059669, #34d399);
+    color: #fff;
+    font-size: 1.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 22px rgba(5, 150, 105, 0.35);
+}
+</style>
 {% endblock content %}

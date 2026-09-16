@@ -1,60 +1,85 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %} display {% endblock title %}
+{% block title %}Owner Directory{% endblock %}
 
-
-
-{% block content  %}
-<!-- Include the side header  -->
+{% block content %}
 {% include "include/header.html" %}
-<div class="jumbotron border shadow">
-    <!-- Search jumbotron  -->
-    <div class="row">
-        <div class="col-md-8 offset-2">
-            <form action="/search/owner">
-               <div class="input-group">
-                    <input type="text" name="query" placeholder="Search car owner" required
-                    class="form-control form-control-lg">
-                    <div class="input-group-append">
-                      <button class="btn btn-dark btn-lg"> <span> <i class="fa fa-search"></i></span></button>
-                    </div>
-               </div>
-              </form>
-              <p style="text-align: center;"> 
-                <b></b> 
-                <span class="text-muted">Search registered user</span>
-              </p>
-        </div>
-    </div>
- </div> <!-- End of search input-->   
 
-<table class="table jumbotron">
-    <h3>Enrolled </h3>
-    <thead>
-      <tr>
-        <th scope="col">S/N</th>
-        <th scope="col">Full Name</th>
-        <th scope="col">Sex</th>
-        <th scope="col">Occupation</th>
-        <th scope="col">Local government</th>
-        <th scope="col">State</th>
-        
-      </tr>
-    </thead>
-    <tbody>
-      {% for owner in owners %}
+<!-- Page header -->
+<div class="d-flex align-items-center justify-content-between mb-3 mt-2 flex-wrap" style="gap:12px;">
+  <div>
+    <div class="breadcrumb-trail"><a href="{% url 'dashboard' %}">Dashboard</a> <span>›</span> Owners</div>
+    <h2 style="font-size:1.3rem;font-weight:800;margin:0;">Owner Directory</h2>
+  </div>
+  <a href="{% url 'owner-create' %}" class="btn-primary-ui">
+    <i class="fas fa-user-plus"></i> Register Owner
+  </a>
+</div>
+
+<div class="ui-table-wrap">
+  <div class="ui-table-toolbar">
+    <span class="ui-table-toolbar-title">
+      <i class="fas fa-users" style="color:var(--blue);"></i> All Owners
+    </span>
+    <!-- Search -->
+    <form action="{% url 'searchUser' %}" method="get" style="display:flex;gap:8px;align-items:center;">
+      <div class="search-bar" style="width:260px;">
+        <i class="fas fa-search" style="position:absolute;left:12px;color:var(--text-muted);font-size:.82rem;pointer-events:none;top:50%;transform:translateY(-50%);"></i>
+        <input type="text" name="query" placeholder="Search by name…" autocomplete="off"
+               style="padding-left:2.2rem;" value="{{ request.GET.query }}">
+        <button type="submit"><i class="fas fa-search"></i></button>
+      </div>
+    </form>
+  </div>
+
+  <div class="table-responsive">
+    <table class="ui-table">
+      <thead>
         <tr>
-          <th>{{ owner.id }}</th>
+          <th>#</th>
+          <th>Full Name</th>
+          <th>Sex</th>
+          <th>Occupation</th>
+          <th>Local Govt.</th>
+          <th>State</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for owner in owners %}
+        <tr>
+          <td style="color:var(--text-muted);font-size:.82rem;">{{ forloop.counter|add:page_obj.start_index|add:"-1" }}</td>
           <td>
-            <a href="{% url 'owner-update' owner.id %}">{{ owner.full_name }}</a>
+            <a href="{% url 'owner-detail' owner.id %}" style="font-weight:700;color:var(--text-primary);">
+              {{ owner.full_name }}
+            </a>
           </td>
-          <td>{{ owner.sex }}</td>
+          <td>
+            {% if owner.sex == "Male" %}
+              <span class="badge-pill-blue"><i class="fas fa-mars mr-1"></i>Male</span>
+            {% else %}
+              <span class="badge-pill-green"><i class="fas fa-venus mr-1"></i>Female</span>
+            {% endif %}
+          </td>
           <td>{{ owner.occupation }}</td>
           <td>{{ owner.local_government }}</td>
-          <td>{{ owner.state }}</td>
+          <td><span class="badge-pill-gray">{{ owner.state }}</span></td>
+          <td>
+            <a href="{% url 'owner-detail' owner.id %}" class="btn-icon btn-icon--blue" title="View"><i class="fas fa-eye"></i></a>
+            <a href="{% url 'owner-update' owner.id %}" class="btn-icon ml-1" title="Edit"><i class="fas fa-pencil-alt"></i></a>
+          </td>
         </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+        {% empty %}
+        <tr>
+          <td colspan="7" class="ui-table-empty">
+            <i class="fas fa-user-slash"></i>
+            No owners registered yet. <a href="{% url 'owner-create' %}">Register one now</a>.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
   {% include "include/pagination.html" %}
-{% endblock content  %}
+</div>
+{% endblock %}

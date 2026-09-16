@@ -1,28 +1,377 @@
-{% extends 'base2.html' %}  <!-- Extending our base file -->
-<!-- calling crispy forms -->
+{% extends 'base2.html' %}
 {% load crispy_forms_tags %}
-<!-- Defining our title  -->
 {% load static %}
-{% block title  %}
-  login 
-{% endblock title  %}
+{% block title %}Login — ALPR System{% endblock title %}
 
-<!-- Defining our login content  -->
-{% include "include/login_navbar.html" %}
-{% block content  %}
-  <div class="login-container">
-  {% if forms.errors %}
-  	<p> Your username and pasword didn't match. Please try again </p>
-  {% else %}
-    <h3 class="login-welcome" style="text-align:center;">Plate number verification</h3>
-    <hr />
-    <form action="{% url 'login'%}" method="post">
-      {% csrf_token %}
-      {{ form|crispy }}
-      
-      <button type="submit" class="btn btn-primary btn-block btn-sm">Login</button>
-      <p> <input type="hidden" name="next" value="{{ next }}" />
-    </form>
-  </div>
-  {% endif %}
-{% endblock content  %}
+{% block content %}
+<div class="row justify-content-center w-100 my-4">
+
+    <!-- Left branding panel (hidden on small screens) -->
+    <div class="col-lg-5 d-none d-lg-flex flex-column justify-content-center pr-5">
+        <div class="mb-4">
+            <div class="login-gov-badge mb-3">
+                <i class="fas fa-shield-alt mr-2"></i> Government Operations Portal
+            </div>
+            <h1 class="login-heading">Automatic License Plate Recognition</h1>
+            <p class="login-subtext">
+                A secure platform for official vehicle plate verification,
+                registration management, and enforcement support.
+            </p>
+        </div>
+
+        <div class="login-feature-list">
+            <div class="login-feature-item">
+                <span class="login-feature-icon"><i class="fas fa-camera"></i></span>
+                <div>
+                    <strong>Live Plate Capture</strong>
+                    <p>Webcam-powered real-time plate detection.</p>
+                </div>
+            </div>
+            <div class="login-feature-item">
+                <span class="login-feature-icon"><i class="fas fa-database"></i></span>
+                <div>
+                    <strong>Vehicle Registry</strong>
+                    <p>Instant lookup against registered vehicle records.</p>
+                </div>
+            </div>
+            <div class="login-feature-item">
+                <span class="login-feature-icon"><i class="fas fa-lock"></i></span>
+                <div>
+                    <strong>Secure Access</strong>
+                    <p>Authorised personnel only. All actions are logged.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login card -->
+    <div class="col-12 col-sm-10 col-md-7 col-lg-5">
+        <div class="login-card">
+
+            <!-- Card header -->
+            <div class="login-card-header">
+                <div class="login-card-icon">
+                    <i class="fas fa-car"></i>
+                </div>
+                <div class="login-gov-badge login-gov-badge--dark mb-2">ALPR Secure Access</div>
+                <h3 class="login-card-title">Official Login Portal</h3>
+                <p class="login-card-subtitle">Enter your credentials to access the system.</p>
+            </div>
+
+            <!-- Error banner -->
+            {% if form.errors %}
+            <div class="login-error-banner" role="alert">
+                <i class="fas fa-exclamation-circle mr-2"></i>
+                Your username or password is incorrect. Please try again.
+            </div>
+            {% endif %}
+
+            <!-- Login form -->
+            <form action="{% url 'login' %}" method="post" novalidate>
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ next }}" />
+
+                <div class="login-field-group">
+                    <label class="login-label" for="id_username">
+                        <i class="fas fa-user mr-1"></i> Username
+                    </label>
+                    <input
+                        type="text"
+                        name="username"
+                        id="id_username"
+                        class="login-input{% if form.username.errors %} login-input--error{% endif %}"
+                        placeholder="Enter your username"
+                        autocomplete="username"
+                        autofocus
+                        required
+                    >
+                    {% if form.username.errors %}
+                        <span class="login-field-error">{{ form.username.errors.0 }}</span>
+                    {% endif %}
+                </div>
+
+                <div class="login-field-group">
+                    <label class="login-label" for="id_password">
+                        <i class="fas fa-lock mr-1"></i> Password
+                    </label>
+                    <div class="login-password-wrapper">
+                        <input
+                            type="password"
+                            name="password"
+                            id="id_password"
+                            class="login-input{% if form.password.errors %} login-input--error{% endif %}"
+                            placeholder="Enter your password"
+                            autocomplete="current-password"
+                            required
+                        >
+                        <button type="button" class="login-toggle-pw" id="togglePassword" tabindex="-1" aria-label="Show password">
+                            <i class="fas fa-eye" id="toggleIcon"></i>
+                        </button>
+                    </div>
+                    {% if form.password.errors %}
+                        <span class="login-field-error">{{ form.password.errors.0 }}</span>
+                    {% endif %}
+                </div>
+
+                <button type="submit" class="login-submit-btn">
+                    <i class="fas fa-sign-in-alt mr-2"></i> Sign In
+                </button>
+            </form>
+
+            <p class="login-card-footer">
+                Restricted to authorised personnel only.
+            </p>
+        </div>
+    </div>
+
+</div>
+
+<style>
+/* ── Login-specific styles ───────────────────────────────── */
+.login-gov-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.login-gov-badge--dark {
+    background: #eff6ff;
+    border-color: #bfdbfe;
+    color: #1d4ed8;
+}
+
+.login-heading {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: 16px;
+}
+
+.login-subtext {
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.login-feature-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-top: 32px;
+}
+
+.login-feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    color: rgba(255, 255, 255, 0.88);
+}
+
+.login-feature-item strong {
+    display: block;
+    color: #fff;
+    font-weight: 700;
+    margin-bottom: 2px;
+}
+
+.login-feature-item p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.68);
+}
+
+.login-feature-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.16);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    color: #fff;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+/* ── Card ───────────────────────────────────────────────── */
+.login-card {
+    background: #fff;
+    border-radius: 24px;
+    padding: 36px 32px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.login-card-header {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.login-card-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #1d4ed8, #38bdf8);
+    color: #fff;
+    font-size: 1.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 14px;
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
+}
+
+.login-card-title {
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 6px;
+}
+
+.login-card-subtitle {
+    color: #64748b;
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+/* ── Error banner ───────────────────────────────────────── */
+.login-error-banner {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #b91c1c;
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+/* ── Fields ─────────────────────────────────────────────── */
+.login-field-group {
+    margin-bottom: 18px;
+}
+
+.login-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 7px;
+}
+
+.login-input {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1.5px solid #d1d5db;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    color: #0f172a;
+    background: #f9fafb;
+    transition: border-color 0.18s, box-shadow 0.18s;
+    outline: none;
+}
+
+.login-input:focus {
+    border-color: #2563eb;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.login-input--error {
+    border-color: #ef4444;
+}
+
+.login-field-error {
+    display: block;
+    font-size: 0.82rem;
+    color: #dc2626;
+    margin-top: 5px;
+}
+
+.login-password-wrapper {
+    position: relative;
+}
+
+.login-password-wrapper .login-input {
+    padding-right: 44px;
+}
+
+.login-toggle-pw {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #9ca3af;
+    cursor: pointer;
+    padding: 4px;
+    line-height: 1;
+    transition: color 0.15s;
+}
+
+.login-toggle-pw:hover {
+    color: #2563eb;
+}
+
+/* ── Submit ─────────────────────────────────────────────── */
+.login-submit-btn {
+    width: 100%;
+    padding: 13px;
+    margin-top: 8px;
+    border: none;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #1d4ed8, #2563eb);
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    transition: opacity 0.18s, transform 0.12s;
+    box-shadow: 0 6px 18px rgba(37, 99, 235, 0.35);
+}
+
+.login-submit-btn:hover {
+    opacity: 0.92;
+    transform: translateY(-1px);
+}
+
+.login-submit-btn:active {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* ── Footer note ────────────────────────────────────────── */
+.login-card-footer {
+    text-align: center;
+    margin: 18px 0 0;
+    font-size: 0.82rem;
+    color: #9ca3af;
+}
+</style>
+
+<script>
+// Show/hide password toggle
+document.getElementById('togglePassword').addEventListener('click', function () {
+    const input = document.getElementById('id_password');
+    const icon  = document.getElementById('toggleIcon');
+    if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.replace('fa-eye', 'fa-eye-slash');
+    } else {
+        input.type = 'password';
+        icon.classList.replace('fa-eye-slash', 'fa-eye');
+    }
+});
+</script>
+{% endblock content %}

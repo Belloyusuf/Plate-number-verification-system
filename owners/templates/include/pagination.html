@@ -1,18 +1,27 @@
-  <!-- Paginator -->
-  <div class="pagination justify-content-end">
-    <span class="step-links">
-        {% if page_obj.has_previous %}
-        <a class="view-all-btn btn-sm" href="?page=1">First</a>                      
-        <a class="view-all-btn btn-sm" href="?page={{ page_obj.previous_page_number }}">Previous</a>
-        {% endif %}
+{% if page_obj.paginator.num_pages > 1 %}
+<div class="pagination-wrap">
+  <span class="pagination-info">
+    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+    &nbsp;·&nbsp; {{ page_obj.paginator.count }} record{{ page_obj.paginator.count|pluralize }}
+  </span>
+  <div class="pagination-btns">
+    {% if page_obj.has_previous %}
+      <a href="?page=1" class="pg-btn" title="First"><i class="fas fa-angle-double-left"></i></a>
+      <a href="?page={{ page_obj.previous_page_number }}" class="pg-btn"><i class="fas fa-angle-left"></i> Prev</a>
+    {% else %}
+      <span class="pg-btn disabled"><i class="fas fa-angle-double-left"></i></span>
+      <span class="pg-btn disabled"><i class="fas fa-angle-left"></i> Prev</span>
+    {% endif %}
 
-        <span class="current">
-            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-        </span>
+    <span class="pg-btn active">{{ page_obj.number }}</span>
 
-        {% if page_obj.has_next %}
-            <a class="view-all-btn btn-sm" href="?page={{ page_obj.next_page_number }}">Next</a>
-            <a class="view-all-btn btn-sm" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
-        {% endif %}
-    </span>
+    {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}" class="pg-btn">Next <i class="fas fa-angle-right"></i></a>
+      <a href="?page={{ page_obj.paginator.num_pages }}" class="pg-btn" title="Last"><i class="fas fa-angle-double-right"></i></a>
+    {% else %}
+      <span class="pg-btn disabled">Next <i class="fas fa-angle-right"></i></span>
+      <span class="pg-btn disabled"><i class="fas fa-angle-double-right"></i></span>
+    {% endif %}
+  </div>
 </div>
+{% endif %}

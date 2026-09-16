@@ -29,7 +29,7 @@ class Owner(TimeModels):
         ("Business", "Business"),
     )
 
-    full_name = models.CharField(max_length=20)
+    full_name = models.CharField(max_length=100)
     sex = models.CharField(choices=SEX_TYPE ,max_length=50)
     marital_status = models.CharField(choices=MARITAL_STATUS ,max_length=50)
     occupation = models.CharField(choices=OCCUPATION, max_length=50)
@@ -37,9 +37,9 @@ class Owner(TimeModels):
     phone = models.CharField(max_length=20)
     email = models.EmailField(max_length=254)
     residential_address = models.CharField(max_length=50)
-    state = models.CharField(max_length=15)
+    state = models.CharField(max_length=50)
     local_government = models.CharField(("Local government"), max_length=50)
-    nationality = models.CharField(max_length=15)
+    nationality = models.CharField(max_length=50)
 
 
     def __str__(self):
@@ -102,8 +102,8 @@ class CarRegisteration(TimeModels):
     owner = models.ForeignKey(Owner, verbose_name=("Owner"), on_delete=models.CASCADE)
     vehicle_category = models.CharField(choices=VEHICLE_CATEGORIES, max_length=15)
     vehicle_sub_category = models.CharField(choices=VEHICLE_SUB_CATEGORY, max_length=50)
-    old_plate_number = models.CharField(max_length=20)
-    vehicle_make = models.CharField(max_length=10)
+    plate_number = models.CharField(max_length=20)
+    vehicle_make = models.CharField(choices=VEHICLE_MAKE, max_length=20)
     color = models.CharField(max_length=10)
     fuel_type = models.CharField(choices=FUEL_TYPE, max_length=50)
     year_of_manufacture = models.CharField(max_length=4, help_text="2000")
@@ -117,7 +117,7 @@ class CarRegisteration(TimeModels):
     odometer = models.CharField(max_length=15)
 
     def __str__(self):
-        return self.owner
+        return f"{self.plate_number} ({self.owner.full_name})"
     
 
 

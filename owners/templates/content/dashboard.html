@@ -1,34 +1,201 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %} dashboard {% endblock title %}
+{% block title %}Dashboard — ALPR System{% endblock %}
 
-{% block content  %}
-<!-- Include the side header  -->
+{% block content %}
+
+<!-- ── Hero ──────────────────────────────────────────── -->
+<div class="hero-card mb-4">
+  <div class="row align-items-center">
+    <div class="col-lg-7 mb-4 mb-lg-0">
+      <div class="hero-eyebrow"><i class="fas fa-shield-alt"></i> Government Operations Portal</div>
+      <h1 class="hero-title">ALPR Command Centre</h1>
+      <p class="hero-sub">Secure vehicle plate verification, registration management, and enforcement support — all in one place.</p>
+      <div class="d-flex flex-wrap gap-2 mt-4" style="gap:10px;">
+        <a href="{% url 'alpr-upload' %}" class="btn-primary-ui">
+          <i class="fas fa-camera"></i> Open ALPR Console
+        </a>
+        <a href="{% url 'car-list' %}" class="btn-secondary-ui" style="background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.3);color:#fff;">
+          <i class="fas fa-list"></i> Vehicle Registry
+        </a>
+      </div>
+    </div>
+    <div class="col-lg-5">
+      <div class="hero-search-widget">
+        <div style="font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:10px;">
+          <i class="fas fa-search mr-1"></i> Quick Plate Verification
+        </div>
+        <form action="/search" method="get">
+          <div class="search-bar" style="background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.25);">
+            <input type="text" name="q" placeholder="e.g. ABC-123-XY" autocomplete="off"
+                   style="background:transparent;color:#fff;" required>
+            <button type="submit" style="background:rgba(255,255,255,.2);color:#fff;">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+        </form>
+        <p style="font-size:.78rem;color:rgba(255,255,255,.5);margin:8px 0 0;">Search the registered vehicle database instantly.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Stats ─────────────────────────────────────────── -->
+<div class="row mb-4" style="row-gap:16px;">
+  <div class="col-6 col-md-4">
+    <div class="stat-card">
+      <div class="stat-icon stat-icon--blue"><i class="fas fa-users"></i></div>
+      <div class="stat-body">
+        <div class="stat-value">{{ total_owners }}</div>
+        <div class="stat-label">Registered Owners</div>
+        <a href="{% url 'owner-list' %}" class="stat-link">View all <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-md-4">
+    <div class="stat-card">
+      <div class="stat-icon stat-icon--green"><i class="fas fa-car"></i></div>
+      <div class="stat-body">
+        <div class="stat-value">{{ total_vehicles }}</div>
+        <div class="stat-label">Registered Vehicles</div>
+        <a href="{% url 'car-list' %}" class="stat-link">View all <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-md-4">
+    <div class="stat-card">
+      <div class="stat-icon stat-icon--amber"><i class="fas fa-map-marker-alt"></i></div>
+      <div class="stat-body">
+        <div class="stat-value">{{ total_centres }}</div>
+        <div class="stat-label">Approved Centres</div>
+        <a href="{% url 'state-list' %}" class="stat-link">View all <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Quick actions ─────────────────────────────────── -->
+<div style="font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--text-muted);margin-bottom:12px;">Quick Actions</div>
 {% include "include/header.html" %}
 
-<!-- Search input  -->
-<div class="jumbotron border shadow">
-    <!-- Search jumbotron  -->
-    <div class="row">
-        <div class="col-md-8 offset-2">
-            <form action="/search">
-               <div class="input-group">
-                    <input type="text" name="q" placeholder="Verify car plate number" required
-                    class="form-control form-control-lg">
-                    <div class="input-group-append">
-                      <button class="btn btn-dark btn-lg"> <span> <i class="fa fa-search"></i></span></button>
-                    </div>
-               </div>
-              </form>
-              <p style="text-align: center;"> 
-                <b></b> 
-                <span class="text-muted">Verify Plate Number</span>
-              </p>
-        </div>
+<!-- ── Recent tables ─────────────────────────────────── -->
+<div class="row mb-4" style="row-gap:20px;">
+
+  <!-- Recent vehicles -->
+  <div class="col-lg-7">
+    <div class="ui-table-wrap">
+      <div class="ui-table-toolbar">
+        <span class="ui-table-toolbar-title">
+          <i class="fas fa-car" style="color:var(--blue);"></i> Recently Registered Vehicles
+        </span>
+        <a href="{% url 'car-create' %}" class="btn-primary-ui" style="font-size:.8rem;padding:.4rem .9rem;">
+          <i class="fas fa-plus"></i> Add
+        </a>
+      </div>
+      <div class="table-responsive">
+        <table class="ui-table">
+          <thead>
+            <tr>
+              <th>Plate</th>
+              <th>Owner</th>
+              <th>Type</th>
+              <th>Color</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for car in recent_vehicles %}
+            <tr>
+              <td><span class="plate-badge">{{ car.plate_number }}</span></td>
+              <td><strong>{{ car.owner.full_name }}</strong></td>
+              <td>{{ car.vehicle_type }}</td>
+              <td>{{ car.color }}</td>
+              <td>
+                <a href="{% url 'car-detail' car.id %}" class="btn-icon btn-icon--blue" title="View"><i class="fas fa-eye"></i></a>
+                <a href="{% url 'car-update' car.id %}" class="btn-icon ml-1" title="Edit"><i class="fas fa-pencil-alt"></i></a>
+              </td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="5" class="ui-table-empty">
+                <i class="fas fa-car-crash"></i>
+                No vehicles registered yet. <a href="{% url 'car-create' %}">Register one now</a>.
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% if recent_vehicles %}
+      <div class="pagination-wrap">
+        <span class="pagination-info">Showing latest 5 records</span>
+        <a href="{% url 'car-list' %}" class="pg-btn">See all <i class="fas fa-angle-right"></i></a>
+      </div>
+      {% endif %}
     </div>
- </div> <!-- End of search input-->   
+  </div>
 
- {% include "include/message.html" %}  <!-- Include Message -->
- {% include "include/about.html" %} <!-- Include about us note-->
+  <!-- Recent owners -->
+  <div class="col-lg-5">
+    <div class="ui-table-wrap">
+      <div class="ui-table-toolbar">
+        <span class="ui-table-toolbar-title">
+          <i class="fas fa-users" style="color:var(--green);"></i> Recent Owners
+        </span>
+        <a href="{% url 'owner-create' %}" class="btn-primary-ui" style="font-size:.8rem;padding:.4rem .9rem;">
+          <i class="fas fa-plus"></i> Add
+        </a>
+      </div>
+      <div class="table-responsive">
+        <table class="ui-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>State</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for owner in recent_owners %}
+            <tr>
+              <td><strong>{{ owner.full_name }}</strong></td>
+              <td><span class="badge-pill-gray">{{ owner.state }}</span></td>
+              <td>
+                <a href="{% url 'owner-detail' owner.id %}" class="btn-icon btn-icon--blue" title="View"><i class="fas fa-eye"></i></a>
+              </td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="3" class="ui-table-empty">
+                <i class="fas fa-user-slash"></i>
+                No owners yet. <a href="{% url 'owner-create' %}">Add one now</a>.
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% if recent_owners %}
+      <div class="pagination-wrap">
+        <span class="pagination-info">Showing latest 5 records</span>
+        <a href="{% url 'owner-list' %}" class="pg-btn">See all <i class="fas fa-angle-right"></i></a>
+      </div>
+      {% endif %}
+    </div>
+  </div>
 
-{% endblock content  %}
+</div>
+
+<!-- ── FRSC about ─────────────────────────────────────── -->
+<div class="ui-card">
+  <div class="ui-card-header">
+    <span class="ui-card-header-title"><i class="fas fa-road"></i> About FRSC</span>
+  </div>
+  <div class="ui-card-body" style="color:var(--text-secondary);font-size:.92rem;line-height:1.7;">
+    In February 1988, the Federal Government created the Federal Road Safety Commission through Decree No.&nbsp;45 of 1988
+    as amended by Decree 35 of 1992, referred to in the statute books as the FRSC Act Cap 141 Laws of the Federation of
+    Nigeria (LFN). Passed by the National Assembly as the Federal Road Safety Commission (Establishment) Act 2007.
+  </div>
+</div>
+
+{% endblock %}

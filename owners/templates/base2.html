@@ -6,24 +6,33 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- CSS LINKS -->
-    <link rel="stylesheet" href="{% static 'css/bootstrap.css'%}">
-    <link rel="stylesheet" href="{% static 'css/all.css'%}">
-    <link rel="stylesheet" href="{% static 'css/style.css'%}">
-    <!-- JAVASCRIPT  -->
-    <script src="{% static 'js/jquery.js'%}"></script>
-    <script src="{% static 'js/bootstrap.js'%}"></script>
-    <script src="{% static 'js/all.js'%}"></script>
-    <title>{% block title %}
-      
-    {% endblock title %}</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/all.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>{% block title %}{% endblock title %}</title>
+    <style>
+        /* Override body padding set by style.css for auth pages */
+        body {
+            padding-top: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 55%, #1d4ed8 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
 </head>
 <body>
-    {% include 'include/login_navbar.html' %}
     <div class="container">
         {% block content %}
-           
         {% endblock content %}
     </div>
+
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <script src="{% static 'js/bootstrap.js' %}"></script>
+    <script src="{% static 'js/all.js' %}"></script>
 </body>
 </html>

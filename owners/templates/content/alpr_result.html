@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block title %}ALPR Result — {{ result.plate_number }}{% endblock %}
+
+{% block content %}
+{% include "include/header.html" %}
+
+<div class="breadcrumb-trail mb-2">
+  <a href="{% url 'dashboard' %}">Dashboard</a> <span>›</span>
+  <a href="{% url 'alpr-upload' %}">ALPR Console</a> <span>›</span> Result
+</div>
+
+<div class="row justify-content-center">
+  <div class="col-lg-8 col-xl-7">
+
+    <!-- Status banner -->
+    {% if result.record_found %}
+    <div class="alert alert-success d-flex align-items-center mb-4" style="gap:10px;font-size:.95rem;">
+      <i class="fas fa-check-circle fa-lg"></i>
+      <div><strong>Vehicle found in registry.</strong> The plate was matched to a registered record.</div>
+    </div>
+    {% else %}
+    <div class="alert alert-warning d-flex align-items-center mb-4" style="gap:10px;font-size:.95rem;">
+      <i class="fas fa-exclamation-triangle fa-lg"></i>
+      <div><strong>Not registered.</strong> No matching record was found for this plate number.</div>
+    </div>
+    {% endif %}
+
+    <!-- Plate card -->
+    <div class="ui-card mb-4">
+      <div style="background:var(--navy);padding:32px;border-radius:var(--radius-lg) var(--radius-lg) 0 0;text-align:center;">
+        <div style="font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.45);margin-bottom:10px;">Detected Plate Number</div>
+        <div style="font-family:'Courier New',monospace;font-size:2.4rem;font-weight:800;color:#fff;letter-spacing:.14em;line-height:1;">
+          {{ result.plate_number|default:"—" }}
+        </div>
+        <div style="margin-top:16px;display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:999px;
+          {% if result.record_found %}background:rgba(52,211,153,.2);color:#6ee7b7;{% else %}background:rgba(251,191,36,.15);color:#fbbf24;{% endif %}
+          font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;">
+          {% if result.record_found %}<i class="fas fa-check-circle"></i> Registered
+          {% else %}<i class="fas fa-times-circle"></i> Not Found{% endif %}
+        </div>
+      </div>
+
+      <div class="ui-card-body">
+        <div class="row" style="row-gap:16px;">
+          <div class="col-md-6">
+            <div style="font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--text-muted);margin-bottom:10px;">Detection Info</div>
+            <div class="info-grid" style="border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;">
+              <div class="info-row"><span class="info-label">Model Used</span><span class="info-value">{{ result.model_name }}</span></div>
+              <div class="info-row"><span class="info-label">Status</span><span class="info-value">{{ result.status }}</span></div>
+              <div class="info-row">
+                <span class="info-label">Confidence</span>
+                <span class="info-value">
+                  {{ result.confidence|floatformat:3 }}
+                  <div class="confidence-bar-track mt-1" style="height:5px;">
+                    <div class="confidence-bar-fill" style="width:{% widthratio result.confidence 1 100 %}%;"></div>
+                  </div>
+                </span>
+              </div>
+              <div class="info-row"><span class="info-label">Image Size</span><span class="info-value">{{ result.image_width }} × {{ result.image_height }} px</span></div>
+            </div>
+          </div>
+
+          {% if result.record_found %}
+          <div class="col-md-6">
+            <div style="font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--text-muted);margin-bottom:10px;">Vehicle Record</div>
+            <div class="info-grid" style="border:1px solid #bbf7d0;border-radius:var(--radius-md);overflow:hidden;background:#f0fdf4;">
+              <div class="info-row" style="border-color:#dcfce7;"><span class="info-label">Owner</span><span class="info-value">{{ result.vehicle_owner }}</span></div>
+              <div class="info-row" style="border-color:#dcfce7;"><span class="info-label">Vehicle Type</span><span class="info-value">{{ result.vehicle_type }}</span></div>
+              <div class="info-row" style="border-color:#dcfce7;"><span class="info-label">Model</span><span class="info-value">{{ result.vehicle_model }}</span></div>
+              <div class="info-row" style="border-color:#dcfce7;"><span class="info-label">Color</span><span class="info-value">{{ result.vehicle_color }}</span></div>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex flex-wrap" style="gap:10px;">
+      <a href="{% url 'alpr-upload' %}" class="btn-primary-ui"><i class="fas fa-camera"></i> Scan Another</a>
+      {% if result.record_found %}
+      <a href="{% url 'search' %}?q={{ result.plate_number }}" class="btn-secondary-ui"><i class="fas fa-search"></i> View in Registry</a>
+      {% endif %}
+      <a href="{% url 'dashboard' %}" class="btn-secondary-ui"><i class="fas fa-th-large"></i> Dashboard</a>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

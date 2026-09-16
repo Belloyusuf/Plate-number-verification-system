@@ -1,29 +1,155 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-    <a class="navbar-brand" href="{% url "dashboard" %}">Plate Number Verification</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+<nav class="navbar navbar-expand-lg navbar-dark modern-nav">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center" href="{% url 'dashboard' %}">
+      <span class="brand-badge mr-2">AL</span>
+      <span style="font-weight:800;letter-spacing:.04em;">ALPR</span>
+      <span class="ml-2" style="font-size:.75rem;font-weight:500;color:rgba(255,255,255,.45);letter-spacing:.03em;">SYSTEM</span>
+    </a>
+
+    <button class="navbar-toggler border-0" type="button"
+            data-toggle="collapse" data-target="#mainNav"
+            aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-  
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+    <div class="collapse navbar-collapse" id="mainNav">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="{% url 'dashboard' %}">Dashboard<span class="sr-only">(current)</span></a>
-        </li>
-
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'dashboard' %}">Home</a>
+          <a class="nav-link {% if request.resolver_match.view_name == 'dashboard' %}active-nav{% endif %}"
+             href="{% url 'dashboard' %}">
+            <i class="fas fa-th-large mr-1"></i> Dashboard
+          </a>
         </li>
-
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle
+             {% if request.resolver_match.view_name in 'owner-list,owner-create,owner-detail,owner-update' %}active-nav{% endif %}"
+             href="#" id="ownersDropdown" role="button"
+             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-users mr-1"></i> Owners
+          </a>
+          <div class="dropdown-menu dropdown-menu-dark-ui" aria-labelledby="ownersDropdown">
+            <a class="dropdown-item-ui" href="{% url 'owner-list' %}">
+              <i class="fas fa-list"></i> All Owners
+            </a>
+            <a class="dropdown-item-ui" href="{% url 'owner-create' %}">
+              <i class="fas fa-user-plus"></i> Register Owner
+            </a>
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle
+             {% if request.resolver_match.view_name in 'car-list,car-create,car-detail,car-update' %}active-nav{% endif %}"
+             href="#" id="vehiclesDropdown" role="button"
+             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-car mr-1"></i> Vehicles
+          </a>
+          <div class="dropdown-menu dropdown-menu-dark-ui" aria-labelledby="vehiclesDropdown">
+            <a class="dropdown-item-ui" href="{% url 'car-list' %}">
+              <i class="fas fa-list"></i> All Vehicles
+            </a>
+            <a class="dropdown-item-ui" href="{% url 'car-create' %}">
+              <i class="fas fa-plus-circle"></i> Register Vehicle
+            </a>
+          </div>
+        </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'state-list' %}">Approve Centers</a>
+          <a class="nav-link {% if request.resolver_match.view_name == 'alpr-upload' %}active-nav{% endif %}"
+             href="{% url 'alpr-upload' %}">
+            <i class="fas fa-camera mr-1"></i> ALPR Console
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.view_name == 'state-list' %}active-nav{% endif %}"
+             href="{% url 'state-list' %}">
+            <i class="fas fa-map-marker-alt mr-1"></i> Centres
+          </a>
         </li>
       </ul>
 
-      {% comment %} <form class="form-inline my-2 my-lg-0"> {% endcomment %}
-        {% comment %} <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"> {% endcomment %}
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit"> 
-          <a href="{% url 'logout' %}">Logout</a>
-        </button>
-      {% comment %} </form> {% endcomment %}
+      <div class="d-flex align-items-center gap-nav">
+        <!-- Quick search -->
+        <form action="/search" method="get" class="nav-search-form d-none d-xl-flex">
+          <i class="fas fa-search nav-search-icon"></i>
+          <input type="text" name="q" placeholder="Search plate…" autocomplete="off" class="nav-search-input">
+        </form>
+
+        <span class="nav-user-chip d-none d-md-flex">
+          <i class="fas fa-user-circle mr-1"></i>
+          {{ request.user.username }}
+        </span>
+
+        <form method="post" action="{% url 'logout' %}" class="d-inline m-0">
+          {% csrf_token %}
+          <button type="submit" class="nav-logout-btn">
+            <i class="fas fa-sign-out-alt mr-1"></i> Logout
+          </button>
+        </form>
+      </div>
     </div>
-  </nav>
+  </div>
+</nav>
+
+<style>
+.gap-nav { gap: 10px; }
+
+/* Dropdown */
+.dropdown-menu-dark-ui {
+  background: var(--navy-mid);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: var(--radius-md);
+  padding: 6px;
+  min-width: 190px;
+  box-shadow: var(--shadow-xl);
+  margin-top: 6px !important;
+}
+.dropdown-item-ui {
+  display: flex; align-items: center; gap: 9px;
+  padding: 9px 12px;
+  border-radius: var(--radius-sm);
+  color: rgba(255,255,255,.82);
+  font-size: .88rem; font-weight: 500;
+  text-decoration: none;
+  transition: background .12s, color .12s;
+}
+.dropdown-item-ui i { width: 16px; text-align: center; color: rgba(255,255,255,.45); }
+.dropdown-item-ui:hover { background: rgba(255,255,255,.1); color: #fff; }
+
+/* Nav search */
+.nav-search-form {
+  position: relative;
+  align-items: center;
+}
+.nav-search-icon {
+  position: absolute; left: 11px;
+  color: rgba(255,255,255,.4);
+  font-size: .8rem; pointer-events: none;
+}
+.nav-search-input {
+  background: rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: var(--radius-full);
+  color: #fff;
+  padding: .38rem .85rem .38rem 2rem;
+  font-size: .84rem;
+  width: 200px;
+  outline: none;
+  transition: background .15s, border-color .15s, width .25s;
+}
+.nav-search-input::placeholder { color: rgba(255,255,255,.38); }
+.nav-search-input:focus {
+  background: rgba(255,255,255,.16);
+  border-color: rgba(255,255,255,.35);
+  width: 240px;
+}
+
+/* User chip */
+.nav-user-chip {
+  display: inline-flex; align-items: center;
+  padding: .38rem .85rem;
+  background: rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: var(--radius-full);
+  color: rgba(255,255,255,.8);
+  font-size: .82rem; font-weight: 600;
+}
+</style>

@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+{% block title %}{{ owner.full_name }} — Owner Profile{% endblock %}
+
+{% block content %}
+{% include "include/header.html" %}
+
+<div class="breadcrumb-trail mb-2">
+  <a href="{% url 'dashboard' %}">Dashboard</a> <span>›</span>
+  <a href="{% url 'owner-list' %}">Owners</a> <span>›</span> {{ owner.full_name }}
+</div>
+
+<!-- Profile header -->
+<div class="ui-card mb-4">
+  <div style="background:linear-gradient(135deg,var(--navy) 0%,#1e3a8a 100%);padding:28px 28px 0;border-radius:var(--radius-lg) var(--radius-lg) 0 0;">
+    <div style="display:flex;align-items:flex-end;gap:20px;padding-bottom:0;">
+      <div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--sky),var(--blue));display:flex;align-items:center;justify-content:center;font-size:1.7rem;color:#fff;border:3px solid rgba(255,255,255,.25);flex-shrink:0;">
+        {{ owner.full_name|slice:":1"|upper }}
+      </div>
+      <div style="padding-bottom:20px;">
+        <h2 style="color:#fff;font-weight:800;margin:0 0 4px;">{{ owner.full_name }}</h2>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <span class="badge-pill-blue" style="background:rgba(255,255,255,.15);color:rgba(255,255,255,.85);border:none;">{{ owner.occupation }}</span>
+          <span class="badge-pill-blue" style="background:rgba(255,255,255,.15);color:rgba(255,255,255,.85);border:none;">{{ owner.state }}</span>
+          <span class="badge-pill-blue" style="background:rgba(255,255,255,.15);color:rgba(255,255,255,.85);border:none;">Registered {{ owner.created|date:"d M Y" }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ui-card-body" style="padding-top:0;">
+    <!-- Tab nav -->
+    <ul class="nav" id="ownerTabs" style="border-bottom:1px solid var(--border);margin-bottom:20px;gap:4px;">
+      <li class="nav-item">
+        <a class="owner-tab active" href="#info" data-tab="info">
+          <i class="fas fa-id-card mr-1"></i> Personal Info
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="owner-tab" href="#vehicles" data-tab="vehicles">
+          <i class="fas fa-car mr-1"></i> Vehicles
+          <span class="tab-count">{{ owner.carregisteration_set.count }}</span>
+        </a>
+      </li>
+    </ul>
+
+    <!-- Personal info tab -->
+    <div id="tab-info">
+      <div class="info-grid">
+        <div class="info-row"><span class="info-label">Full Name</span><span class="info-value">{{ owner.full_name }}</span></div>
+        <div class="info-row"><span class="info-label">Sex</span><span class="info-value">{{ owner.sex }}</span></div>
+        <div class="info-row"><span class="info-label">Marital Status</span><span class="info-value">{{ owner.marital_status }}</span></div>
+        <div class="info-row"><span class="info-label">Date of Birth</span><span class="info-value">{{ owner.date_of_birth|date:"d M Y" }}</span></div>
+        <div class="info-row"><span class="info-label">Phone</span><span class="info-value">{{ owner.phone }}</span></div>
+        <div class="info-row"><span class="info-label">Email</span><span class="info-value">{{ owner.email }}</span></div>
+        <div class="info-row"><span class="info-label">Occupation</span><span class="info-value">{{ owner.occupation }}</span></div>
+        <div class="info-row"><span class="info-label">Nationality</span><span class="info-value">{{ owner.nationality }}</span></div>
+        <div class="info-row" style="grid-column:1/-1;border-right:none;">
+          <span class="info-label">Residential Address</span>
+          <span class="info-value">{{ owner.residential_address }}, {{ owner.local_government }}, {{ owner.state }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Vehicles tab -->
+    <div id="tab-vehicles" style="display:none;">
+      <table class="ui-table">
+        <thead>
+          <tr>
+            <th>Plate Number</th><th>Type</th><th>Model</th><th>Color</th><th>Year</th><th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for car in owner.carregisteration_set.all %}
+          <tr>
+            <td><span class="plate-badge">{{ car.plate_number }}</span></td>
+            <td>{{ car.vehicle_type }}</td>
+            <td>{{ car.model }}</td>
+            <td>{{ car.color }}</td>
+            <td>{{ car.year_of_manufacture }}</td>
+            <td>
+              <a href="{% url 'car-detail' car.id %}" class="btn-icon btn-icon--blue"><i class="fas fa-eye"></i></a>
+              <a href="{% url 'car-update' car.id %}" class="btn-icon ml-1"><i class="fas fa-pencil-alt"></i></a>
+            </td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="6" class="ui-table-empty"><i class="fas fa-car-crash"></i> No vehicles for this owner.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Actions -->
+<div class="d-flex gap-2 flex-wrap" style="gap:10px;">
+  <a href="{% url 'owner-update' owner.id %}" class="btn-primary-ui"><i class="fas fa-pencil-alt"></i> Edit Owner</a>
+  <a href="{% url 'owner-list' %}" class="btn-secondary-ui"><i class="fas fa-arrow-left"></i> Back to List</a>
+</div>
+
+<style>
+.owner-tab {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 10px 16px;
+  color: var(--text-muted);
+  font-size: .88rem; font-weight: 600;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  text-decoration: none;
+  transition: color .15s, border-color .15s;
+}
+.owner-tab:hover { color: var(--blue); text-decoration: none; }
+.owner-tab.active { color: var(--blue); border-bottom-color: var(--blue); }
+.tab-count {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 20px; height: 20px; padding: 0 5px;
+  background: var(--bg); border-radius: var(--radius-full);
+  font-size: .72rem; font-weight: 700; color: var(--text-muted);
+}
+</style>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.querySelectorAll('.owner-tab').forEach(tab => {
+  tab.addEventListener('click', e => {
+    e.preventDefault();
+    document.querySelectorAll('.owner-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    const target = tab.dataset.tab;
+    document.getElementById('tab-info').style.display     = target === 'info'     ? '' : 'none';
+    document.getElementById('tab-vehicles').style.display = target === 'vehicles' ? '' : 'none';
+  });
+});
+</script>
+{% endblock %}

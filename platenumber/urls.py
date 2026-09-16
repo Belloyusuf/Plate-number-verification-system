@@ -14,17 +14,31 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.contrib.admin import AdminSite
 from django.urls import path, include
 from django.conf import settings
-from django.conf.urls.static import static 
+from django.conf.urls.static import static
+from django.contrib.auth import logout as auth_logout
+from django.shortcuts import redirect
+
+
+class CustomAdminSite(AdminSite):
+    """Override admin logout to redirect to our custom logged-out page."""
+    def logout(self, request, extra_context=None):
+        auth_logout(request)
+        return redirect('logged-out')
+
+
+custom_admin = CustomAdminSite(name='admin')
+# Re-register all models that were registered on the default admin site
+for model, model_admin in list(admin.site._registry.items()):
+    custom_admin.register(model, type(model_admin))
 
 
 urlpatterns = [
-
     path('', include("owners.urls")),
-    path('admin/', admin.site.urls),
+    path('admin/', custom_admin.urls),
     path('', include('django.contrib.auth.urls')),
-
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
