@@ -1,4 +1,8 @@
 import re
+import pytesseract 
+
+pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+
 from typing import Any, Dict, List, Optional, Tuple
 
 from django.core.files.uploadedfile import UploadedFile

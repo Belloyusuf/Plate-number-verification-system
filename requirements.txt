@@ -4,12 +4,17 @@ charset-normalizer==2.0.12
 Django==6.0.7
 django-crispy-forms==1.13.0
 idna==3.6
-pillow==12.3.0
+Pillow==12.3.0
 pytz==2023.3.post1
 requests==2.27.1
 sqlparse==0.5.5
 typing_extensions==4.1.1
 urllib3==1.26.18
+numpy==2.5.3
+pytesseract==0.3.13
 
-pytesseract 0.3.13
-easyocr 1.7.2
+
+# easyocr and ultralytics are optional — install separately for better ALPR accuracy:
+# pip install easyocr ultralytics
+# Also requires the system tesseract binary:
+# sudo zypper install -y tesseract-ocr
