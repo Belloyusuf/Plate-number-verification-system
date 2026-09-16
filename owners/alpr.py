@@ -33,14 +33,35 @@ class ALPRService:
         width, height = image.size
 
         plate_number, confidence, status = cls._run_pipeline(image, model_name, width, height)
-        if not plate_number or plate_number.startswith("AB") and len(plate_number) <= 8:
+
+        # If the pipeline fell back to the dimension-based heuristic,
+        # treat the result as "no plate detected" — don't show a fake number.
+        if status == "fallback":
+            return {
+                "model_name": model_name,
+                "plate_number": None,
+                "confidence": 0.0,
+                "status": "no-plate-detected",
+                "record_found": False,
+                "vehicle_owner": None,
+                "vehicle_type": None,
+                "vehicle_model": None,
+                "vehicle_color": None,
+                "registration_number": None,
+                "image_width": width,
+                "image_height": height,
+                "ocr_unavailable": not cls._ocr_available(),
+            }
+
+        # Try to extract from filename as a last resort only for real captured frames
+        if not plate_number:
             extracted_plate = cls._extract_plate_from_filename(uploaded_file.name)
             if extracted_plate:
                 plate_number = extracted_plate
                 confidence = 0.82
                 status = "captured"
 
-        record = cls._lookup_registered_vehicle(plate_number)
+        record = cls._lookup_registered_vehicle(plate_number) if plate_number else None
 
         result = {
             "model_name": model_name,
@@ -55,6 +76,7 @@ class ALPRService:
             "registration_number": None,
             "image_width": width,
             "image_height": height,
+            "ocr_unavailable": False,
         }
 
         if record is not None:
@@ -67,14 +89,38 @@ class ALPRService:
                 "vehicle_color": record["vehicle_color"],
                 "registration_number": record["registration_number"],
             })
-        elif status == "fallback":
-            result["status"] = "not-found"
 
         return result
 
     @classmethod
     def get_available_models(cls) -> List[str]:
         return list(cls.MODEL_NAMES)
+
+    @staticmethod
+    def _ocr_available() -> bool:
+        """Returns True if at least one OCR engine is usable."""
+        try:
+            import pytesseract
+            import subprocess
+            result = subprocess.run(
+                ['tesseract', '--version'],
+                capture_output=True, timeout=3
+            )
+            if result.returncode == 0:
+                return True
+        except Exception:
+            pass
+        try:
+            import easyocr  # noqa: F401
+            return True
+        except ImportError:
+            pass
+        try:
+            from ultralytics import YOLO  # noqa: F401
+            return True
+        except ImportError:
+            pass
+        return False
 
     @classmethod
     def _run_pipeline(cls, image: Any, model_name: str, width: int, height: int) -> Tuple[str, float, str]:

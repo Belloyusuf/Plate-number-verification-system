@@ -19,12 +19,12 @@
 <div class="ui-table-wrap">
   <div class="ui-table-toolbar">
     <span class="ui-table-toolbar-title">
-      <i class="fas fa-users" style="color:var(--blue);"></i> All Owners
+      <i class="fas fa-users" style="color:var(--alpr-blue);"></i> All Owners
     </span>
     <!-- Search -->
     <form action="{% url 'searchUser' %}" method="get" style="display:flex;gap:8px;align-items:center;">
       <div class="search-bar" style="width:260px;">
-        <i class="fas fa-search" style="position:absolute;left:12px;color:var(--text-muted);font-size:.82rem;pointer-events:none;top:50%;transform:translateY(-50%);"></i>
+        <i class="fas fa-search" style="position:absolute;left:12px;color:var(--alpr-text-muted);font-size:.82rem;pointer-events:none;top:50%;transform:translateY(-50%);"></i>
         <input type="text" name="query" placeholder="Search by name…" autocomplete="off"
                style="padding-left:2.2rem;" value="{{ request.GET.query }}">
         <button type="submit"><i class="fas fa-search"></i></button>
@@ -48,9 +48,9 @@
       <tbody>
         {% for owner in owners %}
         <tr>
-          <td style="color:var(--text-muted);font-size:.82rem;">{{ forloop.counter|add:page_obj.start_index|add:"-1" }}</td>
+          <td style="color:var(--alpr-text-muted);font-size:.82rem;">{{ forloop.counter|add:page_obj.start_index|add:"-1" }}</td>
           <td>
-            <a href="{% url 'owner-detail' owner.id %}" style="font-weight:700;color:var(--text-primary);">
+            <a href="{% url 'owner-detail' owner.id %}" style="font-weight:700;color:var(--alpr-text-primary);">
               {{ owner.full_name }}
             </a>
           </td>

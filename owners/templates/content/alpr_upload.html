@@ -20,14 +20,14 @@
       {% csrf_token %}
       <div class="row align-items-end" style="row-gap:12px;">
         <div class="col-md-4">
-          <label class="form-label" style="font-weight:600;font-size:.875rem;color:var(--text-secondary);">
-            <i class="fas fa-robot mr-1" style="color:var(--blue);"></i> Detection Model
+          <label class="form-label" style="font-weight:600;font-size:.875rem;color:var(--alpr-text-secondary);">
+            <i class="fas fa-robot mr-1" style="color:var(--alpr-blue);"></i> Detection Model
           </label>
           {{ form.model_name }}
         </div>
         <div class="col-md-5">
-          <label class="form-label" style="font-weight:600;font-size:.875rem;color:var(--text-secondary);">
-            <i class="fas fa-image mr-1" style="color:var(--blue);"></i> Upload Image
+          <label class="form-label" style="font-weight:600;font-size:.875rem;color:var(--alpr-text-secondary);">
+            <i class="fas fa-image mr-1" style="color:var(--alpr-blue);"></i> Upload Image
           </label>
           {{ form.image }}
         </div>
@@ -92,7 +92,7 @@
       </div>
 
       <!-- Confidence -->
-      <div style="display:flex;justify-content:space-between;align-items:center;font-size:.8rem;color:var(--text-muted);margin-bottom:4px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;font-size:.8rem;color:var(--alpr-text-muted);margin-bottom:4px;">
         <span>Confidence</span>
         <span id="result-confidence">—</span>
       </div>
@@ -102,8 +102,8 @@
         </div>
       </div>
 
-      <div style="font-size:.82rem;color:var(--text-muted);margin-top:10px;">
-        Model: <strong id="result-model" style="color:var(--text-primary);">—</strong>
+      <div style="font-size:.82rem;color:var(--alpr-text-muted);margin-top:10px;">
+        Model: <strong id="result-model" style="color:var(--alpr-text-primary);">—</strong>
       </div>
 
       <!-- Record found card -->
@@ -118,7 +118,7 @@
 
       <!-- Not found -->
       <div id="record-not-found" style="display:none;margin-top:12px;">
-        <div style="background:#fef9f0;border:1px solid #fed7aa;border-radius:var(--radius-md);padding:12px;font-size:.85rem;color:#92400e;display:flex;align-items:center;gap:8px;">
+        <div style="background:#fef9f0;border:1px solid #fed7aa;border-radius:var(--alpr-radius-md);padding:12px;font-size:.85rem;color:#92400e;display:flex;align-items:center;gap:8px;">
           <i class="fas fa-exclamation-triangle"></i> Plate detected but not found in the registry.
         </div>
       </div>

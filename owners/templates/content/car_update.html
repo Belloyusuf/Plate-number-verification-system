@@ -65,7 +65,7 @@
             <div class="form-group col-md-6">{{ form.odometer|as_crispy_field }}</div>
           </div>
 
-          <div class="d-flex justify-content-between align-items-center mt-3 pt-3" style="border-top:1px solid var(--border);">
+          <div class="d-flex justify-content-between align-items-center mt-3 pt-3" style="border-top:1px solid var(--alpr-border);">
             <a href="{% url 'car-detail' form.instance.id %}" class="btn-secondary-ui"><i class="fas fa-times"></i> Cancel</a>
             <button type="submit" class="btn-primary-ui"><i class="fas fa-save"></i> Save Changes</button>
           </div>

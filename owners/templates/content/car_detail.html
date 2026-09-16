@@ -11,7 +11,7 @@
 
 <!-- Vehicle header card -->
 <div class="ui-card mb-4">
-  <div style="background:linear-gradient(135deg,var(--navy) 0%,#1e3a8a 100%);padding:28px;border-radius:var(--radius-lg) var(--radius-lg) 0 0;display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+  <div style="background:linear-gradient(135deg,var(--alpr-navy) 0%,#1e3a8a 100%);padding:28px;border-radius:var(--alpr-radius-lg) var(--alpr-radius-lg) 0 0;display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
     <div style="width:72px;height:72px;border-radius:16px;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:#fff;border:2px solid rgba(255,255,255,.2);flex-shrink:0;">
       <i class="fas fa-car"></i>
     </div>
@@ -33,13 +33,13 @@
   <div class="ui-card-body">
     <div class="row">
       <div class="col-md-6">
-        <div style="font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--text-muted);margin-bottom:10px;">Vehicle Details</div>
-        <div class="info-grid" style="border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;">
+        <div style="font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--alpr-text-muted);margin-bottom:10px;">Vehicle Details</div>
+        <div class="info-grid" style="border:1px solid var(--alpr-border);border-radius:var(--alpr-radius-md);overflow:hidden;">
           <div class="info-row"><span class="info-label">Make</span><span class="info-value">{{ car.vehicle_make }}</span></div>
           <div class="info-row"><span class="info-label">Model</span><span class="info-value">{{ car.model }}</span></div>
           <div class="info-row"><span class="info-label">Color</span>
             <span class="info-value" style="display:flex;align-items:center;gap:6px;">
-              <span style="width:14px;height:14px;border-radius:50%;background:{{ car.color|lower }};border:1px solid var(--border-dark);display:inline-block;"></span>
+              <span style="width:14px;height:14px;border-radius:50%;background:{{ car.color|lower }};border:1px solid var(--alpr-border-dark);display:inline-block;"></span>
               {{ car.color }}
             </span>
           </div>
@@ -51,22 +51,22 @@
         </div>
       </div>
       <div class="col-md-6 mt-4 mt-md-0">
-        <div style="font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--text-muted);margin-bottom:10px;">Registration Numbers</div>
-        <div class="info-grid" style="border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;">
+        <div style="font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--alpr-text-muted);margin-bottom:10px;">Registration Numbers</div>
+        <div class="info-grid" style="border:1px solid var(--alpr-border);border-radius:var(--alpr-radius-md);overflow:hidden;">
           <div class="info-row"><span class="info-label">Plate Number</span><span class="info-value"><span class="plate-badge">{{ car.plate_number }}</span></span></div>
           <div class="info-row"><span class="info-label">Engine Number</span><span class="info-value">{{ car.engine_number }}</span></div>
           <div class="info-row"><span class="info-label">Chassis Number</span><span class="info-value">{{ car.chassis_no }}</span></div>
           <div class="info-row"><span class="info-label">Policy Number</span><span class="info-value">{{ car.policy_number }}</span></div>
         </div>
 
-        <div style="font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--text-muted);margin:18px 0 10px;">Owner</div>
-        <div style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-md);">
-          <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--sky),var(--blue));display:flex;align-items:center;justify-content:center;font-size:1rem;color:#fff;flex-shrink:0;">
+        <div style="font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--alpr-text-muted);margin:18px 0 10px;">Owner</div>
+        <div style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--alpr-surface-2);border:1px solid var(--alpr-border);border-radius:var(--alpr-radius-md);">
+          <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--alpr-sky),var(--alpr-blue));display:flex;align-items:center;justify-content:center;font-size:1rem;color:#fff;flex-shrink:0;">
             {{ car.owner.full_name|slice:":1"|upper }}
           </div>
           <div>
-            <div style="font-weight:700;color:var(--text-primary);">{{ car.owner.full_name }}</div>
-            <div style="font-size:.82rem;color:var(--text-muted);">{{ car.owner.phone }} · {{ car.owner.state }}</div>
+            <div style="font-weight:700;color:var(--alpr-text-primary);">{{ car.owner.full_name }}</div>
+            <div style="font-size:.82rem;color:var(--alpr-text-muted);">{{ car.owner.phone }} · {{ car.owner.state }}</div>
           </div>
           <a href="{% url 'owner-detail' car.owner.id %}" class="btn-icon btn-icon--blue ml-auto"><i class="fas fa-external-link-alt"></i></a>
         </div>

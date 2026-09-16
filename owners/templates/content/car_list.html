@@ -18,7 +18,7 @@
 <div class="ui-table-wrap">
   <div class="ui-table-toolbar">
     <span class="ui-table-toolbar-title">
-      <i class="fas fa-car" style="color:var(--blue);"></i> All Vehicles
+      <i class="fas fa-car" style="color:var(--alpr-blue);"></i> All Vehicles
     </span>
     <form action="{% url 'search' %}" method="get" style="display:flex;gap:8px;align-items:center;">
       <div class="search-bar" style="width:260px;position:relative;">
@@ -46,7 +46,7 @@
       <tbody>
         {% for car in cars %}
         <tr>
-          <td style="color:var(--text-muted);font-size:.82rem;">{{ car.id }}</td>
+          <td style="color:var(--alpr-text-muted);font-size:.82rem;">{{ car.id }}</td>
           <td><span class="plate-badge">{{ car.plate_number }}</span></td>
           <td><strong>{{ car.owner.full_name }}</strong></td>
           <td>
@@ -62,7 +62,7 @@
           <td>{{ car.model }}</td>
           <td>
             <span style="display:inline-flex;align-items:center;gap:5px;">
-              <span style="width:12px;height:12px;border-radius:50%;background:{{ car.color|lower }};border:1px solid var(--border-dark);display:inline-block;"></span>
+              <span style="width:12px;height:12px;border-radius:50%;background:{{ car.color|lower }};border:1px solid var(--alpr-border-dark);display:inline-block;"></span>
               {{ car.color }}
             </span>
           </td>

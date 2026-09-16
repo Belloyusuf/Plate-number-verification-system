@@ -27,7 +27,7 @@
 
     <!-- Plate card -->
     <div class="ui-card mb-4">
-      <div style="background:var(--navy);padding:32px;border-radius:var(--radius-lg) var(--radius-lg) 0 0;text-align:center;">
+      <div style="background:var(--alpr-navy);padding:32px;border-radius:var(--alpr-radius-lg) var(--alpr-radius-lg) 0 0;text-align:center;">
         <div style="font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.45);margin-bottom:10px;">Detected Plate Number</div>
         <div style="font-family:'Courier New',monospace;font-size:2.4rem;font-weight:800;color:#fff;letter-spacing:.14em;line-height:1;">
           {{ result.plate_number|default:"—" }}
@@ -43,8 +43,8 @@
       <div class="ui-card-body">
         <div class="row" style="row-gap:16px;">
           <div class="col-md-6">
-            <div style="font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--text-muted);margin-bottom:10px;">Detection Info</div>
-            <div class="info-grid" style="border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;">
+            <div style="font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--alpr-text-muted);margin-bottom:10px;">Detection Info</div>
+            <div class="info-grid" style="border:1px solid var(--alpr-border);border-radius:var(--alpr-radius-md);overflow:hidden;">
               <div class="info-row"><span class="info-label">Model Used</span><span class="info-value">{{ result.model_name }}</span></div>
               <div class="info-row"><span class="info-label">Status</span><span class="info-value">{{ result.status }}</span></div>
               <div class="info-row">
@@ -62,8 +62,8 @@
 
           {% if result.record_found %}
           <div class="col-md-6">
-            <div style="font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--text-muted);margin-bottom:10px;">Vehicle Record</div>
-            <div class="info-grid" style="border:1px solid #bbf7d0;border-radius:var(--radius-md);overflow:hidden;background:#f0fdf4;">
+            <div style="font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--alpr-text-muted);margin-bottom:10px;">Vehicle Record</div>
+            <div class="info-grid" style="border:1px solid #bbf7d0;border-radius:var(--alpr-radius-md);overflow:hidden;background:#f0fdf4;">
               <div class="info-row" style="border-color:#dcfce7;"><span class="info-label">Owner</span><span class="info-value">{{ result.vehicle_owner }}</span></div>
               <div class="info-row" style="border-color:#dcfce7;"><span class="info-label">Vehicle Type</span><span class="info-value">{{ result.vehicle_type }}</span></div>
               <div class="info-row" style="border-color:#dcfce7;"><span class="info-label">Model</span><span class="info-value">{{ result.vehicle_model }}</span></div>

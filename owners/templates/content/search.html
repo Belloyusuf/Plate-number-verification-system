@@ -9,7 +9,7 @@
     <div class="breadcrumb-trail"><a href="{% url 'dashboard' %}">Dashboard</a> <span>›</span> Search</div>
     <h2 style="font-size:1.3rem;font-weight:800;margin:0;">
       Plate Search
-      {% if query %}<span style="color:var(--text-muted);font-weight:500;"> — "{{ query }}"</span>{% endif %}
+      {% if query %}<span style="color:var(--alpr-text-muted);font-weight:500;"> — "{{ query }}"</span>{% endif %}
     </h2>
   </div>
   <!-- New search -->
@@ -38,7 +38,7 @@
 
 <div class="ui-table-wrap">
   <div class="ui-table-toolbar">
-    <span class="ui-table-toolbar-title"><i class="fas fa-search" style="color:var(--blue);"></i> Results</span>
+    <span class="ui-table-toolbar-title"><i class="fas fa-search" style="color:var(--alpr-blue);"></i> Results</span>
     <a href="{% url 'car-list' %}" class="btn-secondary-ui" style="font-size:.82rem;padding:.38rem .9rem;">
       <i class="fas fa-list mr-1"></i> Browse All
     </a>

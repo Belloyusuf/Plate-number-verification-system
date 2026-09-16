@@ -58,6 +58,7 @@ def dashboard(request):
 
 @login_required
 def alpr_upload(request):
+    ocr_available = ALPRService._ocr_available()
     if request.method == 'POST':
         form = ALPRUploadForm(request.POST, request.FILES)
         if form.is_valid():
@@ -72,7 +73,11 @@ def alpr_upload(request):
     else:
         form = ALPRUploadForm()
 
-    return render(request, 'content/alpr_upload.html', {'form': form, 'models': ALPRService.get_available_models()})
+    return render(request, 'content/alpr_upload.html', {
+        'form': form,
+        'models': ALPRService.get_available_models(),
+        'ocr_available': ocr_available,
+    })
 
 
 # Search plate numbers
