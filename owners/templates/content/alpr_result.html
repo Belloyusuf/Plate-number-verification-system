@@ -4,220 +4,207 @@
 {% block content %}
 {% include "include/header.html" %}
 
-<div class="breadcrumb-bar mb-2">
+<div class="breadcrumb-bar mb-3">
   <a href="{% url 'dashboard' %}">Dashboard</a> <span>›</span>
   <a href="{% url 'alpr-upload' %}">ALPR Console</a> <span>›</span> Result
 </div>
 
 <div class="row justify-content-center">
-  <div class="col-lg-9 col-xl-8">
+  <div class="col-lg-10 col-xl-9">
 
     <!-- ── Status banner ── -->
     {% if result.record_found %}
-    <div class="alert alert-success d-flex align-items-center mb-4" style="gap:10px;font-size:.95rem;">
+    <div class="alert alert-success d-flex align-items-center mb-4" style="gap:10px;">
       <i class="fas fa-check-circle fa-lg"></i>
       <div><strong>Vehicle found in registry.</strong> The plate was matched to a registered record.</div>
     </div>
     {% elif result.plate_number %}
-    <div class="alert alert-warning d-flex align-items-center mb-4" style="gap:10px;font-size:.95rem;">
+    <div class="alert alert-warning d-flex align-items-center mb-4" style="gap:10px;">
       <i class="fas fa-exclamation-triangle fa-lg"></i>
       <div>
         <strong>Plate detected — not registered.</strong>
-        Plate <strong style="font-family:'Courier New',monospace;letter-spacing:.08em;">{{ result.plate_number }}</strong>
-        was read from the image but has no matching record in the database.
+        Plate <strong style="font-family:'Courier New',monospace;">{{ result.plate_number }}</strong>
+        was read but has no matching record in the database.
       </div>
     </div>
     {% else %}
-    <div class="alert alert-danger d-flex align-items-center mb-4" style="gap:10px;font-size:.95rem;">
+    <div class="alert alert-danger d-flex align-items-center mb-4" style="gap:10px;">
       <i class="fas fa-times-circle fa-lg"></i>
-      <div><strong>No plate detected.</strong> The system could not read a plate number. Try a clearer, closer photo.</div>
+      <div><strong>No plate detected.</strong> Try a clearer, closer photo of the plate.</div>
     </div>
     {% endif %}
 
     {% if result.plate_number %}
+    <div class="row" style="row-gap:20px;">
 
-    <!-- ── Main plate card ── -->
-    <div class="ui-card mb-4" style="overflow:hidden;">
+      <!-- ── Left: Plate visual + info ── -->
+      <div class="col-md-5">
 
-      <!-- Dark header — plate number displayed like a real plate -->
-      <div style="background:#0f172a;padding:32px 24px;text-align:center;">
-        <div style="font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.4);margin-bottom:14px;">
-          Detected Plate Number
+        <!-- Physical plate card -->
+        <div style="background:#0f172a;border-radius:16px;padding:24px 20px;text-align:center;margin-bottom:16px;">
+          <div style="font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.4);margin-bottom:12px;">Detected Plate</div>
+
+          <div style="display:inline-block;background:#fff;border:3px solid #d1d5db;border-radius:10px;padding:8px 24px 12px;min-width:220px;box-shadow:0 6px 20px rgba(0,0,0,.5);">
+            <!-- State name -->
+            <div style="font-size:.75rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#166534;margin-bottom:2px;">
+              {% if result.state %}{{ result.state }}{% else %}—{% endif %}
+            </div>
+            <!-- Slogan -->
+            <div style="font-size:.75rem;color:#4b5563;margin-bottom:8px;font-style:italic;font-weight:500;">
+              {% if result.slogan %}{{ result.slogan }}{% else %}&nbsp;{% endif %}
+            </div>
+            <!-- Plate number -->
+            <div style="font-family:'Courier New',monospace;font-size:2rem;font-weight:900;color:#1d4ed8;letter-spacing:.15em;line-height:1;">
+              {{ result.plate_number }}
+            </div>
+            <!-- Country -->
+            <div style="font-size:.72rem;color:#4b5563;text-transform:uppercase;letter-spacing:.06em;margin-top:6px;font-weight:500;">
+              {% if result.country %}{{ result.country }}{% else %}Federal Republic of Nigeria{% endif %}
+            </div>
+          </div>
+
+          <!-- Status badge -->
+          <div style="margin-top:14px;">
+            {% if result.record_found %}
+            <span style="background:rgba(52,211,153,.2);color:#6ee7b7;padding:5px 16px;border-radius:999px;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;">
+              <i class="fas fa-check-circle mr-1"></i> Registered
+            </span>
+            {% else %}
+            <span style="background:rgba(251,191,36,.15);color:#fbbf24;padding:5px 16px;border-radius:999px;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;">
+              <i class="fas fa-exclamation-circle mr-1"></i> Not Registered
+            </span>
+            {% endif %}
+          </div>
         </div>
 
-        <!-- Physical plate visual -->
-        <div style="display:inline-block;background:#fff;border:3px solid #e2e8f0;border-radius:10px;padding:6px 28px 10px;box-shadow:0 6px 24px rgba(0,0,0,.5);min-width:260px;">
-          {% if result.state %}
-          <div style="font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:#166534;margin-bottom:2px;">
-            {{ result.state|upper }}
+        <!-- Plate info table -->
+        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;">
+          <div style="background:#f8fafc;padding:10px 16px;font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#94a3b8;border-bottom:1px solid #e2e8f0;">
+            <i class="fas fa-id-card mr-1"></i> Plate Information
           </div>
-          {% endif %}
-          {% if result.slogan %}
-          <div style="font-size:.62rem;color:#64748b;letter-spacing:.04em;margin-bottom:6px;">
-            {{ result.slogan }}
+
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:11px 16px;border-bottom:1px solid #f1f5f9;">
+            <span style="font-size:.78rem;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:.04em;">Plate Number</span>
+            <span style="font-family:'Courier New',monospace;font-weight:800;color:#1d4ed8;font-size:.95rem;letter-spacing:.1em;">{{ result.plate_number }}</span>
           </div>
-          {% endif %}
-          <div style="font-family:'Courier New',monospace;font-size:2.2rem;font-weight:900;color:#1d4ed8;letter-spacing:.18em;line-height:1;">
-            {{ result.plate_number }}
+
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:11px 16px;border-bottom:1px solid #f1f5f9;">
+            <span style="font-size:.78rem;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:.04em;"><i class="fas fa-globe mr-1"></i>Country</span>
+            <span style="font-weight:600;color:#0f172a;font-size:.88rem;">
+              {% if result.country %}{{ result.country }}{% else %}Federal Republic of Nigeria{% endif %}
+            </span>
           </div>
-          {% if result.country %}
-          <div style="font-size:.62rem;color:#64748b;letter-spacing:.06em;margin-top:6px;text-transform:uppercase;">
-            {{ result.country }}
+
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:11px 16px;border-bottom:1px solid #f1f5f9;">
+            <span style="font-size:.78rem;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:.04em;"><i class="fas fa-map-marker-alt mr-1"></i>State</span>
+            <span style="font-weight:600;color:#059669;font-size:.88rem;">
+              {% if result.state %}{{ result.state }}{% else %}—{% endif %}
+            </span>
           </div>
-          {% endif %}
+
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:11px 16px;border-bottom:1px solid #f1f5f9;">
+            <span style="font-size:.78rem;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;"><i class="fas fa-quote-left mr-1"></i>Slogan</span>
+            <span style="font-style:italic;color:#0f172a;font-size:.9rem;font-weight:600;text-align:right;padding-left:10px;">
+              {% if result.slogan %}{{ result.slogan }}{% else %}—{% endif %}
+            </span>
+          </div>
+
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:11px 16px;">
+            <span style="font-size:.78rem;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:.04em;">OCR Text Read</span>
+            <span style="color:#64748b;font-size:.8rem;text-align:right;max-width:65%;word-break:break-all;">
+              {% if result.raw_text %}{{ result.raw_text }}{% else %}—{% endif %}
+            </span>
+          </div>
         </div>
 
-        <!-- Registration status badge -->
-        <div style="margin-top:18px;">
-          {% if result.record_found %}
-          <span style="display:inline-flex;align-items:center;gap:6px;padding:6px 18px;border-radius:999px;background:rgba(52,211,153,.2);color:#6ee7b7;font-size:.8rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;">
-            <i class="fas fa-check-circle"></i> Registered
-          </span>
-          {% else %}
-          <span style="display:inline-flex;align-items:center;gap:6px;padding:6px 18px;border-radius:999px;background:rgba(251,191,36,.15);color:#fbbf24;font-size:.8rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;">
-            <i class="fas fa-exclamation-circle"></i> Not Registered
-          </span>
-          {% endif %}
-        </div>
       </div>
 
-      <!-- ── Card body ── -->
-      <div class="ui-card-body">
-        <div class="row" style="row-gap:20px;">
+      <!-- ── Right: Detection info + Vehicle record ── -->
+      <div class="col-md-7">
 
-          <!-- Plate information -->
-          <div class="col-md-6">
-            <div style="font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:#94a3b8;margin-bottom:10px;">
-              <i class="fas fa-id-card mr-1"></i> Plate Information
-            </div>
-            <div style="border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;">
-              <div class="info-row">
-                <span class="info-label">Plate Number</span>
-                <span class="info-value" style="font-family:'Courier New',monospace;letter-spacing:.1em;color:#1d4ed8;font-size:1rem;">
-                  {{ result.plate_number }}
-                </span>
-              </div>
-              <div class="info-row">
-                <span class="info-label">Country</span>
-                <span class="info-value">
-                  {% if result.country %}
-                    <span style="display:inline-flex;align-items:center;gap:6px;">
-                      <i class="fas fa-globe" style="color:#2563eb;"></i>
-                      {{ result.country }}
-                    </span>
-                  {% else %}—{% endif %}
-                </span>
-              </div>
-              <div class="info-row">
-                <span class="info-label">State</span>
-                <span class="info-value">
-                  {% if result.state %}
-                    <span style="display:inline-flex;align-items:center;gap:6px;">
-                      <i class="fas fa-map-marker-alt" style="color:#059669;"></i>
-                      {{ result.state }}
-                    </span>
-                  {% else %}—{% endif %}
-                </span>
-              </div>
-              <div class="info-row">
-                <span class="info-label">State Slogan</span>
-                <span class="info-value" style="font-style:italic;">
-                  {{ result.slogan|default:"—" }}
-                </span>
-              </div>
-              {% if result.raw_text %}
-              <div class="info-row" style="border-bottom:none;">
-                <span class="info-label">Full Text Read</span>
-                <span class="info-value" style="font-size:.82rem;color:#64748b;word-break:break-all;">
-                  {{ result.raw_text }}
-                </span>
-              </div>
-              {% endif %}
-            </div>
+        <!-- Detection info -->
+        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;margin-bottom:16px;">
+          <div style="background:#f8fafc;padding:10px 16px;font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#94a3b8;border-bottom:1px solid #e2e8f0;">
+            <i class="fas fa-microchip mr-1"></i> Detection Info
           </div>
 
-          <!-- Detection info + Vehicle record -->
-          <div class="col-md-6">
-
-            <!-- Detection info -->
-            <div style="font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:#94a3b8;margin-bottom:10px;">
-              <i class="fas fa-microchip mr-1"></i> Detection Info
-            </div>
-            <div style="border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;margin-bottom:18px;">
-              <div class="info-row">
-                <span class="info-label">Model Used</span>
-                <span class="info-value">{{ result.model_name }}</span>
+          <div style="display:flex;justify-content:space-between;padding:11px 16px;border-bottom:1px solid #f1f5f9;">
+            <span style="font-size:.82rem;color:#94a3b8;font-weight:600;">Model</span>
+            <span style="font-weight:700;color:#0f172a;font-size:.88rem;">{{ result.model_name }}</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:11px 16px;border-bottom:1px solid #f1f5f9;">
+            <span style="font-size:.82rem;color:#94a3b8;font-weight:600;">Confidence</span>
+            <span style="font-weight:700;color:#0f172a;font-size:.88rem;">
+              {{ result.confidence|floatformat:1 }}%
+              <div style="width:80px;height:5px;background:#e2e8f0;border-radius:999px;overflow:hidden;display:inline-block;vertical-align:middle;margin-left:6px;">
+                <div style="width:{% widthratio result.confidence 1 100 %}%;height:100%;background:linear-gradient(90deg,#2563eb,#38bdf8);border-radius:999px;"></div>
               </div>
-              <div class="info-row">
-                <span class="info-label">Confidence</span>
-                <span class="info-value">
-                  {{ result.confidence|floatformat:1 }}%
-                  <div style="width:100%;height:5px;background:#e2e8f0;border-radius:999px;overflow:hidden;margin-top:4px;">
-                    <div style="width:{% widthratio result.confidence 1 100 %}%;height:100%;background:linear-gradient(90deg,#2563eb,#38bdf8);border-radius:999px;"></div>
-                  </div>
-                </span>
-              </div>
-              <div class="info-row" style="border-bottom:none;">
-                <span class="info-label">Image Size</span>
-                <span class="info-value">{{ result.image_width }} × {{ result.image_height }} px</span>
-              </div>
-            </div>
-
-            <!-- Vehicle record if registered -->
-            {% if result.record_found %}
-            <div style="font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:#94a3b8;margin-bottom:10px;">
-              <i class="fas fa-car mr-1"></i> Registered Vehicle Record
-            </div>
-            <div style="border:1px solid #bbf7d0;border-radius:14px;overflow:hidden;background:#f0fdf4;">
-              <div class="info-row" style="border-color:#dcfce7;">
-                <span class="info-label" style="color:#4ade80;">Owner</span>
-                <span class="info-value" style="color:#14532d;">{{ result.vehicle_owner }}</span>
-              </div>
-              <div class="info-row" style="border-color:#dcfce7;">
-                <span class="info-label" style="color:#4ade80;">Vehicle Type</span>
-                <span class="info-value" style="color:#14532d;">{{ result.vehicle_type }}</span>
-              </div>
-              <div class="info-row" style="border-color:#dcfce7;">
-                <span class="info-label" style="color:#4ade80;">Model</span>
-                <span class="info-value" style="color:#14532d;">{{ result.vehicle_model }}</span>
-              </div>
-              <div class="info-row" style="border-color:#dcfce7;">
-                <span class="info-label" style="color:#4ade80;">Color</span>
-                <span class="info-value" style="color:#14532d;">{{ result.vehicle_color }}</span>
-              </div>
-              <div class="info-row" style="border-color:#dcfce7;border-bottom:none;">
-                <span class="info-label" style="color:#4ade80;">Reg. Number</span>
-                <span class="info-value" style="color:#14532d;font-family:'Courier New',monospace;letter-spacing:.08em;">
-                  {{ result.registration_number }}
-                </span>
-              </div>
-            </div>
-
-            {% else %}
-            <!-- Not registered — prompt to add -->
-            <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:14px;padding:20px;text-align:center;">
-              <div style="width:50px;height:50px;border-radius:50%;background:#fef3c7;display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:#d97706;margin:0 auto 10px;">
-                <i class="fas fa-exclamation-triangle"></i>
-              </div>
-              <div style="font-weight:700;color:#92400e;margin-bottom:6px;">Not in Database</div>
-              <div style="font-size:.85rem;color:#b45309;line-height:1.5;">
-                Plate <strong style="font-family:'Courier New',monospace;">{{ result.plate_number }}</strong>
-                has no registered record.
-              </div>
-              <a href="{% url 'car-create' %}" class="btn-primary-ui mt-3" style="font-size:.82rem;padding:7px 16px;display:inline-flex;">
-                <i class="fas fa-plus-circle"></i> Register This Vehicle
-              </a>
-            </div>
-            {% endif %}
-
+            </span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:11px 16px;border-bottom:1px solid #f1f5f9;">
+            <span style="font-size:.82rem;color:#94a3b8;font-weight:600;">Status</span>
+            <span style="font-weight:700;color:#0f172a;font-size:.88rem;">{{ result.status }}</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:11px 16px;">
+            <span style="font-size:.82rem;color:#94a3b8;font-weight:600;">Image Size</span>
+            <span style="font-weight:700;color:#0f172a;font-size:.88rem;">{{ result.image_width }} × {{ result.image_height }} px</span>
           </div>
         </div>
+
+        <!-- Vehicle record -->
+        {% if result.record_found %}
+        <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:14px;overflow:hidden;">
+          <div style="background:#dcfce7;padding:10px 16px;font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#166534;border-bottom:1px solid #bbf7d0;">
+            <i class="fas fa-car mr-1"></i> Registered Vehicle Record
+          </div>
+          {% for label, value in result.items %}{% endfor %}
+
+          <div style="display:flex;justify-content:space-between;padding:11px 16px;border-bottom:1px solid #d1fae5;">
+            <span style="font-size:.82rem;color:#4ade80;font-weight:600;">Owner</span>
+            <span style="font-weight:700;color:#14532d;">{{ result.vehicle_owner }}</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:11px 16px;border-bottom:1px solid #d1fae5;">
+            <span style="font-size:.82rem;color:#4ade80;font-weight:600;">Vehicle Type</span>
+            <span style="font-weight:700;color:#14532d;">{{ result.vehicle_type }}</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:11px 16px;border-bottom:1px solid #d1fae5;">
+            <span style="font-size:.82rem;color:#4ade80;font-weight:600;">Model</span>
+            <span style="font-weight:700;color:#14532d;">{{ result.vehicle_model }}</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:11px 16px;border-bottom:1px solid #d1fae5;">
+            <span style="font-size:.82rem;color:#4ade80;font-weight:600;">Color</span>
+            <span style="font-weight:700;color:#14532d;">{{ result.vehicle_color }}</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:11px 16px;">
+            <span style="font-size:.82rem;color:#4ade80;font-weight:600;">Registration No.</span>
+            <span style="font-weight:700;color:#14532d;font-family:'Courier New',monospace;letter-spacing:.08em;">{{ result.registration_number }}</span>
+          </div>
+        </div>
+
+        {% else %}
+        <!-- Not registered -->
+        <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:14px;padding:24px;text-align:center;">
+          <div style="width:52px;height:52px;border-radius:50%;background:#fef3c7;display:flex;align-items:center;justify-content:center;font-size:1.3rem;color:#d97706;margin:0 auto 12px;">
+            <i class="fas fa-exclamation-triangle"></i>
+          </div>
+          <div style="font-weight:700;color:#92400e;font-size:1rem;margin-bottom:8px;">Not in Database</div>
+          <div style="font-size:.88rem;color:#b45309;line-height:1.6;margin-bottom:16px;">
+            Plate <strong style="font-family:'Courier New',monospace;">{{ result.plate_number }}</strong>
+            {% if result.state %}from <strong>{{ result.state }}</strong>{% endif %}
+            has no registered record in the database.
+          </div>
+          <a href="{% url 'car-create' %}" class="btn-primary-ui" style="display:inline-flex;">
+            <i class="fas fa-plus-circle"></i> Register This Vehicle
+          </a>
+        </div>
+        {% endif %}
+
       </div>
     </div>
     {% endif %}
 
     <!-- Action buttons -->
-    <div class="d-flex flex-wrap" style="gap:10px;">
+    <div class="d-flex flex-wrap mt-4" style="gap:10px;">
       <a href="{% url 'alpr-upload' %}" class="btn-primary-ui">
         <i class="fas fa-camera"></i> Scan Another
       </a>
