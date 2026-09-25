@@ -15,7 +15,6 @@ from .alpr import ALPRService
 
 
 
-@login_required
 def user_login(request):
     """ user login view """
     if request.method == 'POST':

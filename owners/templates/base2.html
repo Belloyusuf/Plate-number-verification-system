@@ -1,38 +1,157 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
-    <link rel="stylesheet" href="{% static 'css/all.css' %}">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <title>{% block title %}{% endblock title %}</title>
-    <style>
-        /* Override body padding set by style.css for auth pages */
-        body {
-            padding-top: 0;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 55%, #1d4ed8 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+  <link rel="stylesheet" href="{% static 'css/all.css' %}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <title>{% block title %}{% endblock title %}</title>
+  <style>
+  /* Auth page base */
+  * { box-sizing: border-box !important; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    padding: 0 !important; margin: 0 !important;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 55%, #1d4ed8 100%) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  .container { max-width: 1100px !important; width: 100%; }
+
+  /* ── Left branding panel ── */
+  .login-gov-badge {
+    display: inline-flex; align-items: center;
+    padding: 6px 14px; border-radius: 999px;
+    background: rgba(255,255,255,.18);
+    border: 1px solid rgba(255,255,255,.3);
+    color: #fff; font-size: .78rem; font-weight: 700;
+    letter-spacing: .08em; text-transform: uppercase;
+  }
+  .login-gov-badge--dark {
+    background: #eff6ff; border-color: #bfdbfe; color: #1d4ed8;
+  }
+  .login-heading {
+    font-size: 2rem; font-weight: 800; color: #fff !important;
+    line-height: 1.2; margin-bottom: 16px;
+  }
+  .login-subtext {
+    color: rgba(255,255,255,.78) !important; font-size: 1rem; line-height: 1.6;
+  }
+  .login-feature-list {
+    display: flex !important; flex-direction: column !important;
+    gap: 18px; margin-top: 32px;
+  }
+  .login-feature-item {
+    display: flex !important; align-items: flex-start !important;
+    gap: 14px; color: rgba(255,255,255,.88);
+  }
+  .login-feature-item strong {
+    display: block; color: #fff !important; font-weight: 700; margin-bottom: 2px;
+  }
+  .login-feature-item p {
+    margin: 0; font-size: .9rem; color: rgba(255,255,255,.68) !important;
+  }
+  .login-feature-icon {
+    display: flex !important; align-items: center !important; justify-content: center !important;
+    width: 42px; height: 42px; border-radius: 12px;
+    background: rgba(255,255,255,.16);
+    border: 1px solid rgba(255,255,255,.22);
+    color: #fff !important; font-size: 1rem; flex-shrink: 0;
+  }
+
+  /* ── Login card ── */
+  .login-card {
+    background: #fff !important; border-radius: 24px;
+    padding: 36px 32px;
+    box-shadow: 0 24px 60px rgba(0,0,0,.28);
+    border: 1px solid rgba(255,255,255,.12);
+  }
+  .login-card-header { text-align: center; margin-bottom: 24px; }
+  .login-card-icon {
+    width: 60px; height: 60px; border-radius: 18px;
+    background: linear-gradient(135deg, #1d4ed8, #38bdf8);
+    color: #fff; font-size: 1.5rem;
+    display: inline-flex; align-items: center; justify-content: center;
+    margin-bottom: 14px; box-shadow: 0 8px 20px rgba(37,99,235,.4);
+  }
+  .login-card-title { font-size: 1.45rem; font-weight: 700; color: #0f172a !important; margin-bottom: 6px; }
+  .login-card-subtitle { color: #64748b !important; font-size: .95rem; margin: 0; }
+
+  /* ── Error ── */
+  .login-error-banner {
+    background: #fef2f2; border: 1px solid #fecaca; color: #b91c1c;
+    border-radius: 12px; padding: 12px 16px; font-size: .9rem;
+    font-weight: 500; margin-bottom: 20px;
+  }
+
+  /* ── Fields ── */
+  .login-field-group { margin-bottom: 18px; }
+  .login-label {
+    display: block; font-size: .875rem; font-weight: 600;
+    color: #374151 !important; margin-bottom: 7px;
+  }
+  .login-input {
+    width: 100%; padding: 11px 14px;
+    border: 1.5px solid #d1d5db !important; border-radius: 12px !important;
+    font-size: .95rem; color: #0f172a !important;
+    background: #f9fafb !important;
+    transition: border-color .18s, box-shadow .18s;
+    outline: none; box-shadow: none !important;
+  }
+  .login-input:focus {
+    border-color: #2563eb !important; background: #fff !important;
+    box-shadow: 0 0 0 3px rgba(37,99,235,.12) !important;
+  }
+  .login-input--error { border-color: #ef4444 !important; }
+  .login-field-error { display: block; font-size: .82rem; color: #dc2626; margin-top: 5px; }
+  .login-password-wrapper { position: relative; }
+  .login-password-wrapper .login-input { padding-right: 44px; }
+  .login-toggle-pw {
+    position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+    background: none; border: none; color: #9ca3af; cursor: pointer; padding: 4px;
+    line-height: 1; transition: color .15s;
+  }
+  .login-toggle-pw:hover { color: #2563eb; }
+
+  /* ── Submit ── */
+  .login-submit-btn {
+    width: 100%; padding: 13px; margin-top: 8px; border: none;
+    border-radius: 999px !important;
+    background: linear-gradient(135deg, #1d4ed8, #2563eb) !important;
+    color: #fff !important; font-size: 1rem; font-weight: 700;
+    cursor: pointer; transition: opacity .18s, transform .12s;
+    box-shadow: 0 6px 18px rgba(37,99,235,.35);
+    display: block;
+  }
+  .login-submit-btn:hover { opacity: .92; transform: translateY(-1px); }
+
+  /* ── Footer ── */
+  .login-card-footer { text-align: center; margin: 18px 0 0; font-size: .82rem; color: #9ca3af; }
+
+  /* ── Logout card (logged_out.html) ── */
+  .logout-icon-wrap { display: flex; justify-content: center; margin-bottom: 20px; }
+  .logout-icon {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: linear-gradient(135deg, #059669, #34d399);
+    color: #fff; font-size: 1.6rem;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 8px 22px rgba(5,150,105,.35);
+  }
+  </style>
 </head>
 <body>
-    <div class="container">
-        {% block content %}
-        {% endblock content %}
-    </div>
-
-    <script src="{% static 'js/jquery.js' %}"></script>
-    <script src="{% static 'js/bootstrap.js' %}"></script>
-    <script src="{% static 'js/all.js' %}"></script>
+  <div class="container py-4">
+    {% block content %}{% endblock content %}
+  </div>
+  <script src="{% static 'js/jquery.js' %}"></script>
+  <script src="{% static 'js/bootstrap.js' %}"></script>
+  <script src="{% static 'js/all.js' %}"></script>
 </body>
 </html>

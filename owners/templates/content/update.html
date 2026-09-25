@@ -1,67 +1,71 @@
 {% extends "base.html" %}
-{% load static %}
 {% load crispy_forms_tags %}
-{% block title %} update {% endblock title %}
+{% block title %}Update Owner{% endblock %}
 
-
-
-
-{% block content  %}
-<!-- Include the side header  -->
+{% block content %}
 {% include "include/header.html" %}
 
-<div class="register">
-    <div class="jumbotron mt-3" style=" margin-top:5%; background-color:#343A40; color:white;">
-       <h2 style="text-align:center;">Update</h2>
-    </div>
-    <form action="" method="POST">
-        {% csrf_token %}
-        <div class="form-row">
-           <div class="form-group col-md-6">
-           {{ form.full_name|as_crispy_field }}
-           </div>
-           <div class="form-group col-md-6">
-           {{ form.sex|as_crispy_field }}
-           </div>
-        </div>
-        <div class="form-row">
-           <div class="form-group col-md-6">
-           {{ form.marital_status|as_crispy_field }}
-           </div>
-           <div class="form-group col-md-6">
-           {{ form.occupation|as_crispy_field }}
-           </div>
-        </div>
-        <div class="form-row">
-           <div class="form-group col-md-6">
-           {{ form.date_of_birth|as_crispy_field }}
-           </div>
-           <div class="form-group col-md-6">
-           {{ form.phone|as_crispy_field }}
-           </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group col-md-12">
-            {{ form.email|as_crispy_field }}
-            </div>
-            <div class="form-group col-md-12">
-                {{ form.residential_address|as_crispy_field }}
-            </div>
-    
-         </div>
-        <div class="form-row">
-           <div class="form-group col-md-4">
-           {{ form.state|as_crispy_field }}
-           </div>
-           <div class="form-group col-md-4">
-           {{ form.local_government|as_crispy_field }}
-           </div>
-           <div class="form-group col-md-4">
-            {{ form.nationality|as_crispy_field }}
-            </div>
-        </div>
-    <!-- <button type="submit" class="btn btn-primary mb-5">Add product</button> -->
-         <input type="submit" value="Update registrations" class="btn btn-primary mb-5">
-    </form>
+<div class="breadcrumb-bar mb-2">
+  <a href="{% url 'dashboard' %}">Dashboard</a> <span>›</span>
+  <a href="{% url 'owner-list' %}">Owners</a> <span>›</span> Update
+</div>
 
-{% endblock content  %}
+<div class="row justify-content-center mt-2">
+  <div class="col-lg-9 col-xl-8">
+    <div class="form-card">
+      <div class="form-card-header">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:#fff;">
+            <i class="fas fa-user-edit"></i>
+          </div>
+          <div>
+            <h2>Update Owner Record</h2>
+            <p>Edit the owner's personal and contact details below.</p>
+          </div>
+        </div>
+      </div>
+      <div class="form-card-body">
+        <form action="" method="POST" novalidate>
+          {% csrf_token %}
+
+          <div class="form-section-title">Personal Information</div>
+          <div class="form-row">
+            <div class="form-group col-md-6">{{ form.full_name|as_crispy_field }}</div>
+            <div class="form-group col-md-6">{{ form.sex|as_crispy_field }}</div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">{{ form.marital_status|as_crispy_field }}</div>
+            <div class="form-group col-md-6">{{ form.occupation|as_crispy_field }}</div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">{{ form.date_of_birth|as_crispy_field }}</div>
+            <div class="form-group col-md-6">{{ form.phone|as_crispy_field }}</div>
+          </div>
+
+          <div class="form-section-title mt-3">Contact Details</div>
+          <div class="form-row">
+            <div class="form-group col-md-12">{{ form.email|as_crispy_field }}</div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-12">{{ form.residential_address|as_crispy_field }}</div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-4">{{ form.state|as_crispy_field }}</div>
+            <div class="form-group col-md-4">{{ form.local_government|as_crispy_field }}</div>
+            <div class="form-group col-md-4">{{ form.nationality|as_crispy_field }}</div>
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center mt-3 pt-3" style="border-top:1px solid #e2e8f0;">
+            <a href="{% url 'owner-list' %}" class="btn-secondary-ui">
+              <i class="fas fa-arrow-left"></i> Cancel
+            </a>
+            <button type="submit" class="btn-primary-ui">
+              <i class="fas fa-save"></i> Save Changes
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -23,9 +23,9 @@ urlpatterns = [
     path("approve-state-create/", ApproveCreateViews.as_view(), name="state-create"),
     path("approve-state-list/", ApproveListViews.as_view(), name="state-list"),
     # Searching by plate number
-    path("search", views.search, name="search"),
+    path("search/", views.search, name="search"),
     # Search user/Owner
-    path("search/owner", views.searchUser, name="searchUser"),
+    path("search/owner/", views.searchUser, name="searchUser"),
     # ALPR system
     path("alpr/", views.alpr_upload, name="alpr-upload"),
 ]
