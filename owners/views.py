@@ -64,6 +64,11 @@ def alpr_upload(request):
             uploaded_file = form.cleaned_data['image']
             model_name = form.cleaned_data['model_name']
             result = ALPRService.process_upload(uploaded_file, model_name)
+            import logging
+            logger = logging.getLogger(__name__)
+            logger.warning("ALPR result: plate=%s state=%s slogan=%s country=%s raw=%s",
+                result.get('plate_number'), result.get('state'),
+                result.get('slogan'), result.get('country'), result.get('raw_text'))
             if request.headers.get('x-requested-with') == 'XMLHttpRequest':
                 return JsonResponse({'success': True, 'result': result})
             return render(request, 'content/alpr_result.html', {'result': result, 'form': form})

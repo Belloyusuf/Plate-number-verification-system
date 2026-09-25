@@ -482,8 +482,10 @@ class ALPRService:
             country = "Federal Republic of Nigeria"
 
         # Clean raw text for display
-        cleaned_lines = [l.strip() for l in raw_text.splitlines() if l.strip() and len(l.strip()) > 1]
-        clean = " | ".join(cleaned_lines) if cleaned_lines else (raw_text or "")
+        cleaned_lines = []
+        if raw_text:
+            cleaned_lines = [l.strip() for l in raw_text.splitlines() if l.strip() and len(l.strip()) > 1]
+        clean = " | ".join(cleaned_lines) if cleaned_lines else ""
 
         return {
             "country":  country,
