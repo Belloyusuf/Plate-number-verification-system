@@ -103,15 +103,15 @@ class ALPRService:
     @staticmethod
     def _ocr_available() -> bool:
         """Returns True if at least one OCR engine is usable."""
+        # Check pytesseract — try actually running it rather than checking PATH
         try:
             import pytesseract
-            import subprocess
-            result = subprocess.run(
-                ['tesseract', '--version'],
-                capture_output=True, timeout=3
-            )
-            if result.returncode == 0:
-                return True
+            from PIL import Image as PILImage
+            import io
+            # Create a tiny blank image and try to run tesseract on it
+            tiny = PILImage.new("RGB", (10, 10), color=(255, 255, 255))
+            pytesseract.image_to_string(tiny)
+            return True
         except Exception:
             pass
         try:
@@ -128,12 +128,20 @@ class ALPRService:
 
     @classmethod
     def _run_pipeline(cls, image: Any, model_name: str, width: int, height: int) -> Tuple[str, float, str]:
+        # Step 1 — try YOLO detection + OCR on the cropped plate region
         detection_result = cls._detect_plate_region(image, model_name)
         if detection_result is not None:
             plate_text, confidence = detection_result
             if plate_text:
                 return plate_text, confidence, "ocr-detected"
 
+        # Step 2 — no YOLO available or no box found; run OCR directly on the
+        # full image so Tesseract can still read the plate text
+        plate_text, confidence = cls._read_plate_text(image)
+        if plate_text:
+            return plate_text, confidence, "ocr-direct"
+
+        # Step 3 — nothing worked
         return cls._fallback_plate_from_image(width, height)
 
     @classmethod
