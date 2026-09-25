@@ -10,9 +10,9 @@
 </div>
 
 <div class="row justify-content-center">
-  <div class="col-lg-8 col-xl-7">
+  <div class="col-lg-9 col-xl-8">
 
-    <!-- Status banner -->
+    <!-- ── Status banner ── -->
     {% if result.record_found %}
     <div class="alert alert-success d-flex align-items-center mb-4" style="gap:10px;font-size:.95rem;">
       <i class="fas fa-check-circle fa-lg"></i>
@@ -24,67 +24,129 @@
       <div>
         <strong>Plate detected — not registered.</strong>
         Plate <strong style="font-family:'Courier New',monospace;letter-spacing:.08em;">{{ result.plate_number }}</strong>
-        was read from the image but is not registered in the database.
+        was read from the image but has no matching record in the database.
       </div>
     </div>
     {% else %}
     <div class="alert alert-danger d-flex align-items-center mb-4" style="gap:10px;font-size:.95rem;">
       <i class="fas fa-times-circle fa-lg"></i>
-      <div><strong>No plate detected.</strong> The system could not read a plate number. Try a clearer, closer photo of the plate.</div>
+      <div><strong>No plate detected.</strong> The system could not read a plate number. Try a clearer, closer photo.</div>
     </div>
     {% endif %}
 
     {% if result.plate_number %}
-    <!-- Plate display card -->
+
+    <!-- ── Main plate card ── -->
     <div class="ui-card mb-4" style="overflow:hidden;">
 
-      <!-- Dark header with plate number -->
+      <!-- Dark header — plate number displayed like a real plate -->
       <div style="background:#0f172a;padding:32px 24px;text-align:center;">
-        <div style="font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.45);margin-bottom:12px;">
+        <div style="font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.4);margin-bottom:14px;">
           Detected Plate Number
         </div>
 
-        <!-- Plate number styled like a real plate -->
-        <div style="display:inline-block;background:#fff;border:3px solid #e2e8f0;border-radius:10px;padding:10px 32px;box-shadow:0 4px 20px rgba(0,0,0,.4);">
-          <div style="font-family:'Courier New',monospace;font-size:2.2rem;font-weight:900;color:#0f172a;letter-spacing:.18em;line-height:1;">
+        <!-- Physical plate visual -->
+        <div style="display:inline-block;background:#fff;border:3px solid #e2e8f0;border-radius:10px;padding:6px 28px 10px;box-shadow:0 6px 24px rgba(0,0,0,.5);min-width:260px;">
+          {% if result.state %}
+          <div style="font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:#166534;margin-bottom:2px;">
+            {{ result.state|upper }}
+          </div>
+          {% endif %}
+          {% if result.slogan %}
+          <div style="font-size:.62rem;color:#64748b;letter-spacing:.04em;margin-bottom:6px;">
+            {{ result.slogan }}
+          </div>
+          {% endif %}
+          <div style="font-family:'Courier New',monospace;font-size:2.2rem;font-weight:900;color:#1d4ed8;letter-spacing:.18em;line-height:1;">
             {{ result.plate_number }}
           </div>
+          {% if result.country %}
+          <div style="font-size:.62rem;color:#64748b;letter-spacing:.06em;margin-top:6px;text-transform:uppercase;">
+            {{ result.country }}
+          </div>
+          {% endif %}
         </div>
 
         <!-- Registration status badge -->
-        <div style="margin-top:16px;">
+        <div style="margin-top:18px;">
           {% if result.record_found %}
-          <span style="display:inline-flex;align-items:center;gap:6px;padding:6px 16px;border-radius:999px;background:rgba(52,211,153,.2);color:#6ee7b7;font-size:.8rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;">
+          <span style="display:inline-flex;align-items:center;gap:6px;padding:6px 18px;border-radius:999px;background:rgba(52,211,153,.2);color:#6ee7b7;font-size:.8rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;">
             <i class="fas fa-check-circle"></i> Registered
           </span>
           {% else %}
-          <span style="display:inline-flex;align-items:center;gap:6px;padding:6px 16px;border-radius:999px;background:rgba(251,191,36,.15);color:#fbbf24;font-size:.8rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;">
+          <span style="display:inline-flex;align-items:center;gap:6px;padding:6px 18px;border-radius:999px;background:rgba(251,191,36,.15);color:#fbbf24;font-size:.8rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;">
             <i class="fas fa-exclamation-circle"></i> Not Registered
           </span>
           {% endif %}
         </div>
       </div>
 
+      <!-- ── Card body ── -->
       <div class="ui-card-body">
-        <div class="row" style="row-gap:16px;">
+        <div class="row" style="row-gap:20px;">
 
-          <!-- Detection info -->
+          <!-- Plate information -->
           <div class="col-md-6">
             <div style="font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:#94a3b8;margin-bottom:10px;">
-              Detection Info
+              <i class="fas fa-id-card mr-1"></i> Plate Information
             </div>
-            <div class="info-grid" style="border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;">
+            <div style="border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;">
               <div class="info-row">
                 <span class="info-label">Plate Number</span>
-                <span class="info-value" style="font-family:'Courier New',monospace;letter-spacing:.08em;">{{ result.plate_number }}</span>
+                <span class="info-value" style="font-family:'Courier New',monospace;letter-spacing:.1em;color:#1d4ed8;font-size:1rem;">
+                  {{ result.plate_number }}
+                </span>
               </div>
+              <div class="info-row">
+                <span class="info-label">Country</span>
+                <span class="info-value">
+                  {% if result.country %}
+                    <span style="display:inline-flex;align-items:center;gap:6px;">
+                      <i class="fas fa-globe" style="color:#2563eb;"></i>
+                      {{ result.country }}
+                    </span>
+                  {% else %}—{% endif %}
+                </span>
+              </div>
+              <div class="info-row">
+                <span class="info-label">State</span>
+                <span class="info-value">
+                  {% if result.state %}
+                    <span style="display:inline-flex;align-items:center;gap:6px;">
+                      <i class="fas fa-map-marker-alt" style="color:#059669;"></i>
+                      {{ result.state }}
+                    </span>
+                  {% else %}—{% endif %}
+                </span>
+              </div>
+              <div class="info-row">
+                <span class="info-label">State Slogan</span>
+                <span class="info-value" style="font-style:italic;">
+                  {{ result.slogan|default:"—" }}
+                </span>
+              </div>
+              {% if result.raw_text %}
+              <div class="info-row" style="border-bottom:none;">
+                <span class="info-label">Full Text Read</span>
+                <span class="info-value" style="font-size:.82rem;color:#64748b;word-break:break-all;">
+                  {{ result.raw_text }}
+                </span>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+
+          <!-- Detection info + Vehicle record -->
+          <div class="col-md-6">
+
+            <!-- Detection info -->
+            <div style="font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:#94a3b8;margin-bottom:10px;">
+              <i class="fas fa-microchip mr-1"></i> Detection Info
+            </div>
+            <div style="border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;margin-bottom:18px;">
               <div class="info-row">
                 <span class="info-label">Model Used</span>
                 <span class="info-value">{{ result.model_name }}</span>
-              </div>
-              <div class="info-row">
-                <span class="info-label">Status</span>
-                <span class="info-value">{{ result.status }}</span>
               </div>
               <div class="info-row">
                 <span class="info-label">Confidence</span>
@@ -95,20 +157,18 @@
                   </div>
                 </span>
               </div>
-              <div class="info-row">
+              <div class="info-row" style="border-bottom:none;">
                 <span class="info-label">Image Size</span>
                 <span class="info-value">{{ result.image_width }} × {{ result.image_height }} px</span>
               </div>
             </div>
-          </div>
 
-          <!-- Vehicle record (if registered) OR not-found notice -->
-          <div class="col-md-6">
+            <!-- Vehicle record if registered -->
             {% if result.record_found %}
             <div style="font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:#94a3b8;margin-bottom:10px;">
-              Registered Vehicle Record
+              <i class="fas fa-car mr-1"></i> Registered Vehicle Record
             </div>
-            <div class="info-grid" style="border:1px solid #bbf7d0;border-radius:14px;overflow:hidden;background:#f0fdf4;">
+            <div style="border:1px solid #bbf7d0;border-radius:14px;overflow:hidden;background:#f0fdf4;">
               <div class="info-row" style="border-color:#dcfce7;">
                 <span class="info-label" style="color:#4ade80;">Owner</span>
                 <span class="info-value" style="color:#14532d;">{{ result.vehicle_owner }}</span>
@@ -126,30 +186,31 @@
                 <span class="info-value" style="color:#14532d;">{{ result.vehicle_color }}</span>
               </div>
               <div class="info-row" style="border-color:#dcfce7;border-bottom:none;">
-                <span class="info-label" style="color:#4ade80;">Registration No.</span>
-                <span class="info-value" style="color:#14532d;font-family:'Courier New',monospace;">{{ result.registration_number }}</span>
+                <span class="info-label" style="color:#4ade80;">Reg. Number</span>
+                <span class="info-value" style="color:#14532d;font-family:'Courier New',monospace;letter-spacing:.08em;">
+                  {{ result.registration_number }}
+                </span>
               </div>
             </div>
+
             {% else %}
-            <div style="font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:#94a3b8;margin-bottom:10px;">
-              Database Result
-            </div>
+            <!-- Not registered — prompt to add -->
             <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:14px;padding:20px;text-align:center;">
-              <div style="width:52px;height:52px;border-radius:50%;background:#fef3c7;display:flex;align-items:center;justify-content:center;font-size:1.3rem;color:#d97706;margin:0 auto 12px;">
+              <div style="width:50px;height:50px;border-radius:50%;background:#fef3c7;display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:#d97706;margin:0 auto 10px;">
                 <i class="fas fa-exclamation-triangle"></i>
               </div>
               <div style="font-weight:700;color:#92400e;margin-bottom:6px;">Not in Database</div>
               <div style="font-size:.85rem;color:#b45309;line-height:1.5;">
                 Plate <strong style="font-family:'Courier New',monospace;">{{ result.plate_number }}</strong>
-                has no registered record. You can register it now.
+                has no registered record.
               </div>
-              <a href="{% url 'car-create' %}" class="btn-primary-ui mt-3" style="font-size:.82rem;padding:7px 16px;">
+              <a href="{% url 'car-create' %}" class="btn-primary-ui mt-3" style="font-size:.82rem;padding:7px 16px;display:inline-flex;">
                 <i class="fas fa-plus-circle"></i> Register This Vehicle
               </a>
             </div>
             {% endif %}
-          </div>
 
+          </div>
         </div>
       </div>
     </div>
